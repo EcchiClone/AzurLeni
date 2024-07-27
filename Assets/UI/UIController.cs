@@ -1,57 +1,155 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
+using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
 using UnityEngine.UIElements;
+using System.Runtime.CompilerServices;
 
 public class UIController : MonoBehaviour
 {
-    // °¡Ã­ ¹öÆ°
-    private VisualElement _characterImage;
-    // °¡Ã­ ¹öÆ°
-    private Button _btnGatcha;
+    private VisualElement _yoyo;
+    private VisualElement _lobbyBackImg;
+    private VisualElement[] _tabs;
+    private VisualElement[] _subTabs;
+    private Button[] _tabBtns;
     private Button _toLobby;
-    private Button _toCharacterLeft;
-    private Button _toCharacterRight;
-    private Button _toCharacterCenter;
+    private int _crtTab;
+    private int _newTab;
 
     void Start()
     {
+
         var root = GetComponent<UIDocument>().rootVisualElement;
-        _characterImage = root.Q<VisualElement>("Character");
-        _btnGatcha = root.Q<Button>("Button_GatchaTab");
-        _toLobby = root.Q<Button>("Button_ToLobby");
-        _toCharacterLeft = root.Q<Button>("Button_Left");
-        _toCharacterCenter = root.Q<Button>("Button_Center");
-        _toCharacterRight = root.Q<Button>("Button_Right");
 
-        _btnGatcha.RegisterCallback<ClickEvent>(OnGatchaTabBtnClicked);
-        _toLobby.RegisterCallback<ClickEvent>(OnLobbyBtnClicked);
-        _toCharacterLeft.RegisterCallback<ClickEvent>(CharacterLeft);
-        _toCharacterCenter.RegisterCallback<ClickEvent>(CharacterCenter);
-        _toCharacterRight.RegisterCallback<ClickEvent>(CharacterRight);
+        //_yoyo = root.Q<VisualElement>("Yoyo1");
+        ////Yoyo();
+        //float sss = -10f;
+        //_yoyo.style.translate = new Translate(new Length(0f, LengthUnit.Pixel), new Length(DOTween.To(() => _yoyo.style.translate.value.y, x => sss = x, 20f, 3f).OnUpdate(() =>
+        //{
+        //    _yoyo.style.translate = new Translate(0f, _yoyo.style.translate.value.y);
+        //}).SetLoops(-1, LoopType.Yoyo).SetEase(Ease.InOutSine), LengthUnit.Pixel);
+
+        _lobbyBackImg = root.Q<VisualElement>("BackgroundImage");
+        _crtTab = 4;
+        _tabs = new VisualElement[]{
+            root.Q<VisualElement>("Tab0_Shop"),
+            root.Q<VisualElement>("Tab1_Leniz"),
+            root.Q<VisualElement>("Tab2_Item"),
+            root.Q<VisualElement>("Tab3_Lab"),
+            root.Q<VisualElement>("Tab4_Lobby"),
+            root.Q<VisualElement>("Tab5_Gacha"),
+            root.Q<VisualElement>("Tab6_House"),
+            root.Q<VisualElement>("Tab7_Guild"),
+            root.Q<VisualElement>("Tab8_Square"),
+        };
+        _subTabs = new VisualElement[]{
+            null,
+            null,
+            null,
+            null,
+            null,
+            root.Q<VisualElement>("Tab5_Chars"),
+            null,
+            null,
+            null,
+        };
+        _tabBtns = new Button[]{
+            root.Q<Button>("Btn_Shop"),
+            root.Q<Button>("Btn_Leniz"),
+            root.Q<Button>("Btn_Item"),
+            root.Q<Button>("Btn_Lab"),
+            root.Q<Button>("Btn_Lobby"),
+            root.Q<Button>("Btn_Gacha"),
+            root.Q<Button>("Btn_House"),
+            root.Q<Button>("Btn_Guild"),
+            root.Q<Button>("Btn_Square"),
+        };
+        foreach (var _tabBtn in _tabBtns)
+        {
+            _tabBtn.RegisterCallback<ClickEvent>(OnBottomTabBtnClicked);
+        }
     }
 
-    private void OnGatchaTabBtnClicked(ClickEvent evt)
+    private void OnBottomTabBtnClicked(ClickEvent evt)
     {
-        _characterImage.style.display = DisplayStyle.None;
-    }
-    private void OnLobbyBtnClicked(ClickEvent evt)
-    {
-        _characterImage.style.display = DisplayStyle.Flex;
-    }
-    private void CharacterLeft(ClickEvent evt)
-    {
-        _characterImage.RemoveFromClassList("character--right");
-        _characterImage.AddToClassList("character--left");
-    }
-    private void CharacterCenter(ClickEvent evt)
-    {
-        _characterImage.RemoveFromClassList("character--left");
-        _characterImage.RemoveFromClassList("character--right");
-    }
-    private void CharacterRight(ClickEvent evt)
-    {
-        _characterImage.RemoveFromClassList("character--left");
-        _characterImage.AddToClassList("character--right");
+        _newTab = Array.IndexOf(_tabBtns, evt.currentTarget);
+
+        _tabs[_newTab].style.display = DisplayStyle.Flex;
+        if(_subTabs[_newTab] != null) _subTabs[_newTab].style.display = DisplayStyle.Flex;
+
+        var oldTab = _tabs[_crtTab];
+
+        EventCallback<TransitionEndEvent> onTransitionEnd = null;
+        onTransitionEnd = (TransitionEndEvent e) =>
+        {
+            oldTab.style.display = DisplayStyle.None;
+            oldTab.UnregisterCallback(onTransitionEnd);
+        };
+
+        oldTab.RegisterCallback(onTransitionEnd);
+
+        if (_subTabs[_crtTab] != null)
+        {
+            var oldSubTab = _subTabs[_crtTab];
+
+            EventCallback<TransitionEndEvent> onTransitionEnd_sub = null;
+            onTransitionEnd_sub = (TransitionEndEvent e) =>
+            {
+                oldSubTab.style.display = DisplayStyle.None;
+                oldSubTab.UnregisterCallback(onTransitionEnd_sub);
+            };
+
+            oldSubTab.RegisterCallback(onTransitionEnd_sub);
+        }
+
+        for (int i = 0; i < _tabs.Length; i++)
+        {
+            if (i < _newTab)
+            {
+                if (!_tabs[i].ClassListContains("tab--left"))
+                    _tabs[i].AddToClassList("tab--left");
+                if (_tabs[i].ClassListContains("tab--right"))
+                    _tabs[i].RemoveFromClassList("tab--right");
+                if (_subTabs[i] != null)
+                {
+                    if (!_subTabs[i].ClassListContains("tab--left"))
+                        _subTabs[i].AddToClassList("tab--left");
+                    if (_subTabs[i].ClassListContains("tab--right"))
+                        _subTabs[i].RemoveFromClassList("tab--right");
+                }
+            }
+            else if (i == _newTab)
+            {
+                if (_tabs[i].ClassListContains("tab--left"))
+                    _tabs[i].RemoveFromClassList("tab--left");
+                if (_tabs[i].ClassListContains("tab--right"))
+                    _tabs[i].RemoveFromClassList("tab--right");
+                if (_subTabs[i] != null)
+                {
+                    if (_subTabs[i].ClassListContains("tab--left"))
+                        _subTabs[i].RemoveFromClassList("tab--left");
+                    if (_subTabs[i].ClassListContains("tab--right"))
+                        _subTabs[i].RemoveFromClassList("tab--right");
+                }
+            }
+            else
+            {
+                if (_tabs[i].ClassListContains("tab--left"))
+                    _tabs[i].RemoveFromClassList("tab--left");
+                if (!_tabs[i].ClassListContains("tab--right"))
+                    _tabs[i].AddToClassList("tab--right");
+                if (_subTabs[i] != null)
+                {
+                    if (_subTabs[i].ClassListContains("tab--left"))
+                        _subTabs[i].RemoveFromClassList("tab--left");
+                    if (!_subTabs[i].ClassListContains("tab--right"))
+                        _subTabs[i].AddToClassList("tab--right");
+                }
+            }
+        }
+        _crtTab = _newTab;
+        _lobbyBackImg.style.translate = new Translate(new Length(0f+(_newTab-4f)*2f, LengthUnit.Percent), 0f);
     }
 }
