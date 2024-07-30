@@ -6,6 +6,9 @@ using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
 using UnityEngine.UIElements;
 using System.Runtime.CompilerServices;
+using System.Linq;
+using UnityEditorInternal;
+using static UnityEngine.GraphicsBuffer;
 
 public class UIController : MonoBehaviour
 {
@@ -13,6 +16,11 @@ public class UIController : MonoBehaviour
     public UIDocument UI_Character;
     public UIDocument UI_LobbyUI;
     public UIDocument UI_Gacha;
+
+    private VisualElement root_Background;
+    private VisualElement root_Character;
+    private VisualElement root_LobbyUI;
+    private VisualElement root_Gacha;
 
     private VisualElement _lobbyBackImg;
     private VisualElement[] _tabs;
@@ -24,48 +32,53 @@ public class UIController : MonoBehaviour
 
     void Start()
     {
+        root_Background = UI_Background.GetComponent<UIDocument>().rootVisualElement;
+        root_Character = UI_Character.GetComponent<UIDocument>().rootVisualElement;
+        root_LobbyUI = UI_LobbyUI.GetComponent<UIDocument>().rootVisualElement;
+        root_Gacha = UI_Gacha.GetComponent<UIDocument>().rootVisualElement;
 
-        var root = UI_LobbyUI.GetComponent<UIDocument>().rootVisualElement;
-
-        _lobbyBackImg = root.Q<VisualElement>("BackgroundImage");
+        _lobbyBackImg = root_Background.Q<VisualElement>("BackgroundImage");
         _crtTab = 4;
         _tabs = new VisualElement[]{
-            root.Q<VisualElement>("Tab0_Shop"),
-            root.Q<VisualElement>("Tab1_Leniz"),
-            root.Q<VisualElement>("Tab2_Item"),
-            root.Q<VisualElement>("Tab3_Lab"),
-            root.Q<VisualElement>("Tab4_Lobby"),
-            root.Q<VisualElement>("Tab5_Gacha"),
-            root.Q<VisualElement>("Tab6_House"),
-            root.Q<VisualElement>("Tab7_Guild"),
-            root.Q<VisualElement>("Tab8_Square"),
-        };
-        _subTabs = new VisualElement[]{
-            null,
-            null,
-            null,
-            null,
-            null,
-            root.Q<VisualElement>("Tab5_Chars"),
-            null,
-            null,
-            null,
+            root_LobbyUI.Q<VisualElement>("Tab0_Shop"),
+            root_LobbyUI.Q<VisualElement>("Tab1_Leniz"),
+            root_LobbyUI.Q<VisualElement>("Tab2_Item"),
+            root_LobbyUI.Q<VisualElement>("Tab3_Lab"),
+            root_LobbyUI.Q<VisualElement>("Tab4_Lobby"),
+            root_LobbyUI.Q<VisualElement>("Tab5_Gacha"),
+            root_LobbyUI.Q<VisualElement>("Tab6_House"),
+            root_LobbyUI.Q<VisualElement>("Tab7_Guild"),
+            root_LobbyUI.Q<VisualElement>("Tab8_Square"),
         };
         _tabBtns = new Button[]{
-            root.Q<Button>("Btn_Shop"),
-            root.Q<Button>("Btn_Leniz"),
-            root.Q<Button>("Btn_Item"),
-            root.Q<Button>("Btn_Lab"),
-            root.Q<Button>("Btn_Lobby"),
-            root.Q<Button>("Btn_Gacha"),
-            root.Q<Button>("Btn_House"),
-            root.Q<Button>("Btn_Guild"),
-            root.Q<Button>("Btn_Square"),
+            root_LobbyUI.Q<Button>("Btn_Shop"),
+            root_LobbyUI.Q<Button>("Btn_Leniz"),
+            root_LobbyUI.Q<Button>("Btn_Item"),
+            root_LobbyUI.Q<Button>("Btn_Lab"),
+            root_LobbyUI.Q<Button>("Btn_Lobby"),
+            root_LobbyUI.Q<Button>("Btn_Gacha"),
+            root_LobbyUI.Q<Button>("Btn_House"),
+            root_LobbyUI.Q<Button>("Btn_Guild"),
+            root_LobbyUI.Q<Button>("Btn_Square"),
         };
         foreach (var _tabBtn in _tabBtns)
         {
             _tabBtn.RegisterCallback<ClickEvent>(OnBottomTabBtnClicked);
         }
+        SetupYoyo();
+    }
+    private void SetupYoyo()
+    {
+        List<VisualElement> yoyoElements = new List<VisualElement>();
+        yoyoElements.Add(root_Character.Q<VisualElement>("Tab4_Image"));
+        yoyoElements.Add(root_Character.Q<VisualElement>("Tab5_Image"));
+
+        foreach(var element in yoyoElements)
+        {
+            element.RegisterCallback<TransitionEndEvent>(evt => { element.ToggleInClassList("any--yoyo2p"); });
+            element.schedule.Execute(_ => element.ToggleInClassList("any--yoyo2p")).StartingIn(100);
+        }
+        print(yoyoElements.Count);
     }
 
     private void OnBottomTabBtnClicked(ClickEvent evt)
@@ -73,7 +86,7 @@ public class UIController : MonoBehaviour
         _newTab = Array.IndexOf(_tabBtns, evt.currentTarget);
 
         _tabs[_newTab].style.display = DisplayStyle.Flex;
-        if(_subTabs[_newTab] != null) _subTabs[_newTab].style.display = DisplayStyle.Flex;
+        //if(_subTabs[_newTab] != null) _subTabs[_newTab].style.display = DisplayStyle.Flex;
 
         var oldTab = _tabs[_crtTab];
 
@@ -86,19 +99,19 @@ public class UIController : MonoBehaviour
 
         oldTab.RegisterCallback(onTransitionEnd);
 
-        if (_subTabs[_crtTab] != null)
-        {
-            var oldSubTab = _subTabs[_crtTab];
+        //if (_subTabs[_crtTab] != null)
+        //{
+        //    var oldSubTab = _subTabs[_crtTab];
 
-            EventCallback<TransitionEndEvent> onTransitionEnd_sub = null;
-            onTransitionEnd_sub = (TransitionEndEvent e) =>
-            {
-                oldSubTab.style.display = DisplayStyle.None;
-                oldSubTab.UnregisterCallback(onTransitionEnd_sub);
-            };
+        //    EventCallback<TransitionEndEvent> onTransitionEnd_sub = null;
+        //    onTransitionEnd_sub = (TransitionEndEvent e) =>
+        //    {
+        //        oldSubTab.style.display = DisplayStyle.None;
+        //        oldSubTab.UnregisterCallback(onTransitionEnd_sub);
+        //    };
 
-            oldSubTab.RegisterCallback(onTransitionEnd_sub);
-        }
+        //    oldSubTab.RegisterCallback(onTransitionEnd_sub);
+        //}
 
         for (int i = 0; i < _tabs.Length; i++)
         {
@@ -108,13 +121,13 @@ public class UIController : MonoBehaviour
                     _tabs[i].AddToClassList("tab--left");
                 if (_tabs[i].ClassListContains("tab--right"))
                     _tabs[i].RemoveFromClassList("tab--right");
-                if (_subTabs[i] != null)
-                {
-                    if (!_subTabs[i].ClassListContains("tab--left"))
-                        _subTabs[i].AddToClassList("tab--left");
-                    if (_subTabs[i].ClassListContains("tab--right"))
-                        _subTabs[i].RemoveFromClassList("tab--right");
-                }
+                //if (_subTabs[i] != null)
+                //{
+                //    if (!_subTabs[i].ClassListContains("tab--left"))
+                //        _subTabs[i].AddToClassList("tab--left");
+                //    if (_subTabs[i].ClassListContains("tab--right"))
+                //        _subTabs[i].RemoveFromClassList("tab--right");
+                //}
             }
             else if (i == _newTab)
             {
@@ -122,13 +135,13 @@ public class UIController : MonoBehaviour
                     _tabs[i].RemoveFromClassList("tab--left");
                 if (_tabs[i].ClassListContains("tab--right"))
                     _tabs[i].RemoveFromClassList("tab--right");
-                if (_subTabs[i] != null)
-                {
-                    if (_subTabs[i].ClassListContains("tab--left"))
-                        _subTabs[i].RemoveFromClassList("tab--left");
-                    if (_subTabs[i].ClassListContains("tab--right"))
-                        _subTabs[i].RemoveFromClassList("tab--right");
-                }
+                //if (_subTabs[i] != null)
+                //{
+                //    if (_subTabs[i].ClassListContains("tab--left"))
+                //        _subTabs[i].RemoveFromClassList("tab--left");
+                //    if (_subTabs[i].ClassListContains("tab--right"))
+                //        _subTabs[i].RemoveFromClassList("tab--right");
+                //}
             }
             else
             {
@@ -136,16 +149,16 @@ public class UIController : MonoBehaviour
                     _tabs[i].RemoveFromClassList("tab--left");
                 if (!_tabs[i].ClassListContains("tab--right"))
                     _tabs[i].AddToClassList("tab--right");
-                if (_subTabs[i] != null)
-                {
-                    if (_subTabs[i].ClassListContains("tab--left"))
-                        _subTabs[i].RemoveFromClassList("tab--left");
-                    if (!_subTabs[i].ClassListContains("tab--right"))
-                        _subTabs[i].AddToClassList("tab--right");
-                }
+                //if (_subTabs[i] != null)
+                //{
+                //    if (_subTabs[i].ClassListContains("tab--left"))
+                //        _subTabs[i].RemoveFromClassList("tab--left");
+                //    if (!_subTabs[i].ClassListContains("tab--right"))
+                //        _subTabs[i].AddToClassList("tab--right");
+                //}
             }
         }
         _crtTab = _newTab;
-        _lobbyBackImg.style.translate = new Translate(new Length(0f+(_newTab-4f)*2f, LengthUnit.Percent), 0f);
+        //_lobbyBackImg.style.translate = new Translate(new Length(0f+(_newTab-4f)*2f, LengthUnit.Percent), 0f);
     }
 }

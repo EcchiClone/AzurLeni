@@ -9,24 +9,20 @@ public class UserData // 유저당 한 개의 프로필
 }
 public class DataManager : MonoBehaviour
 {
-    // 싱글톤
     public static DataManager instance;
+    public static UserData CurrentUserData { get; private set; } = new UserData();
+
     private void Awake()
     {
-        if(instance == null)
-        {
-            instance = this;
-        }
-        else
-        {
-            Destroy(gameObject);
-            return;
-        }
+        if (instance == null) instance = this;
+        else { Destroy(this); return; }
         DontDestroyOnLoad(this.gameObject);
     }
 
-    public static UserData CurrentUserData { get; private set; }
-
+    public static void LoadUserID(string _uid)
+    {
+        CurrentUserData.uid = _uid;
+    }
     public static void LoadUserData(string json)
     {
         CurrentUserData = JsonUtility.FromJson<UserData>(json);
