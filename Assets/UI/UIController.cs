@@ -9,7 +9,11 @@ using System.Runtime.CompilerServices;
 
 public class UIController : MonoBehaviour
 {
-    private VisualElement _yoyo;
+    public UIDocument UI_Background;
+    public UIDocument UI_Character;
+    public UIDocument UI_LobbyUI;
+    public UIDocument UI_Gacha;
+
     private VisualElement _lobbyBackImg;
     private VisualElement[] _tabs;
     private VisualElement[] _subTabs;
@@ -21,15 +25,7 @@ public class UIController : MonoBehaviour
     void Start()
     {
 
-        var root = GetComponent<UIDocument>().rootVisualElement;
-
-        //_yoyo = root.Q<VisualElement>("Yoyo1");
-        ////Yoyo();
-        //float sss = -10f;
-        //_yoyo.style.translate = new Translate(new Length(0f, LengthUnit.Pixel), new Length(DOTween.To(() => _yoyo.style.translate.value.y, x => sss = x, 20f, 3f).OnUpdate(() =>
-        //{
-        //    _yoyo.style.translate = new Translate(0f, _yoyo.style.translate.value.y);
-        //}).SetLoops(-1, LoopType.Yoyo).SetEase(Ease.InOutSine), LengthUnit.Pixel);
+        var root = UI_LobbyUI.GetComponent<UIDocument>().rootVisualElement;
 
         _lobbyBackImg = root.Q<VisualElement>("BackgroundImage");
         _crtTab = 4;

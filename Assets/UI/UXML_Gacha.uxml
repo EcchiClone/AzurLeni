@@ -1,0 +1,56 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/UI/GachaStyle.uss?fileID=7433441132597879392&amp;guid=89ac811a68b55dd45b5194934d5a3c15&amp;type=3#GachaStyle" />
+    <ui:VisualElement name="Master" style="width: 100%; height: 100%; position: absolute; -unity-font-definition: initial; -unity-font-style: normal; -unity-font: url(&apos;project://database/Assets/Fonts/MotionControl-Bold.otf?fileID=12800000&amp;guid=86588b4c93e54ec428f9cbd0eaa74d96&amp;type=3#MotionControl-Bold&apos;); font-size: 32px; visibility: visible; display: flex;">
+        <ui:VisualElement name="MasterBackground" style="position: absolute; width: 100%; height: 100%; transition-duration: 2s; transition-timing-function: ease; justify-content: center;">
+            <ui:VisualElement name="BackgroundImage" style="flex-grow: 0; background-image: url(&apos;project://database/Assets/Images/Background/%7B%7Bmasterpiece%7D%7D,%20best%20quality,%20high%20quality,wallpaper,%20Background,%20%7B%7Bscenery%7D%7D,%20%20s-2003125909.png?fileID=2800000&amp;guid=e2715f38026875343ab808869ee36435&amp;type=3#{{masterpiece}}, best quality, high quality,wallpaper, Background, {{scenery}},  s-2003125909&apos;); position: absolute; width: 100%; height: 100%; align-self: center; flex-shrink: 0; align-items: stretch; justify-content: flex-start; translate: 0 0; transition-duration: 1.5s; transition-timing-function: ease-in-out-cubic; display: flex;" />
+        </ui:VisualElement>
+        <ui:VisualElement name="UI" style="position: absolute; width: 100%; height: 100%; justify-content: center;">
+            <ui:VisualElement />
+            <ui:VisualElement name="Panels" style="flex-grow: 0; align-self: center; height: auto;">
+                <ui:VisualElement name="PanelsUp" style="flex-grow: initial; flex-direction: row; align-items: center;">
+                    <ui:VisualElement name="Panel0" class="panel">
+                        <ui:Button text="Button" parse-escape-sequences="true" display-tooltip-when-elided="true" class="panel-sub">
+                            <ui:VisualElement name="Pic" class="panel-pic" />
+                            <ui:Label tabindex="-1" text="Name Name" parse-escape-sequences="true" display-tooltip-when-elided="true" class="panel-name" />
+                        </ui:Button>
+                    </ui:VisualElement>
+                    <ui:VisualElement name="Panel0" class="panel">
+                        <ui:Button text="Button" parse-escape-sequences="true" display-tooltip-when-elided="true" class="panel-sub">
+                            <ui:VisualElement name="Pic" class="panel-pic" />
+                            <ui:Label tabindex="-1" text="Name Name" parse-escape-sequences="true" display-tooltip-when-elided="true" class="panel-name" />
+                        </ui:Button>
+                    </ui:VisualElement>
+                    <ui:VisualElement name="Panel0" class="panel">
+                        <ui:Button text="Button" parse-escape-sequences="true" display-tooltip-when-elided="true" class="panel-sub">
+                            <ui:VisualElement name="Pic" class="panel-pic" />
+                            <ui:Label tabindex="-1" text="Name Name" parse-escape-sequences="true" display-tooltip-when-elided="true" class="panel-name" />
+                        </ui:Button>
+                    </ui:VisualElement>
+                    <ui:VisualElement name="Panel0" class="panel">
+                        <ui:Button text="Button" parse-escape-sequences="true" display-tooltip-when-elided="true" class="panel-sub">
+                            <ui:VisualElement name="Pic" class="panel-pic" />
+                            <ui:Label tabindex="-1" text="Name Name" parse-escape-sequences="true" display-tooltip-when-elided="true" class="panel-name" />
+                        </ui:Button>
+                    </ui:VisualElement>
+                    <ui:VisualElement name="Panel0" class="panel">
+                        <ui:Button text="Button" parse-escape-sequences="true" display-tooltip-when-elided="true" class="panel-sub">
+                            <ui:VisualElement name="Pic" class="panel-pic" />
+                            <ui:Label tabindex="-1" text="Name Name" parse-escape-sequences="true" display-tooltip-when-elided="true" class="panel-name" />
+                        </ui:Button>
+                    </ui:VisualElement>
+                </ui:VisualElement>
+                <ui:VisualElement name="PanelsDown" style="flex-grow: initial; flex-direction: row; align-items: center;">
+                    <ui:VisualElement name="Panel0" class="panel" />
+                    <ui:VisualElement name="Panel0" class="panel" />
+                    <ui:VisualElement name="Panel0" class="panel" />
+                    <ui:VisualElement name="Panel0" class="panel" />
+                    <ui:VisualElement name="Panel0" class="panel" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+            <ui:VisualElement name="VisualElement" style="flex-direction: row; justify-content: center; align-items: center; margin-top: 30px;">
+                <ui:Button text="More 10" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Button-More" class="btn-bottom" />
+                <ui:Button text="OK" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Button-OK" class="btn-bottom" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

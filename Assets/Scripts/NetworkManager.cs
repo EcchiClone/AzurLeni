@@ -7,48 +7,37 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.UI;
-[System.Serializable]
-public class GoogleData
+
+public class SendForm
 {
-    public string order, result, msg, value;
+    public string uid;
+    public string order;
+    public string value;
+
+    public string id;
+    public string password;
 }
-public class UserStats
+public class ResponseData
 {
-    public string uid, name, have_char, comment;
-    public int level, exp;
+    public string order;
+    public string result;
+    public string value;
+    public string msg;
 }
-public class GoogleSheetManager : MonoBehaviour
+
+public class NetworkManager : MonoBehaviour
 {
-    const string URL = "https://script.google.com/macros/s/AKfycbzmo8fkRtX1qF9WTxnI2lxjshyRnkU4O87IaCit2vz9aCxoPX2eX-JImUzBq3r_M3J2/exec";
-    public GoogleData GD;
-    public UserStats US;
-    public TMP_InputField IdInput, PassInput, ValueInput;
-    public TMP_Text UserStats;
+    const string SERVER_URL = "https://script.google.com/macros/s/AKfycbzmo8fkRtX1qF9WTxnI2lxjshyRnkU4O87IaCit2vz9aCxoPX2eX-JImUzBq3r_M3J2/exec";
+
+    public TMP_InputField Input_ID, Input_Password, ValueInput;
+    public TMP_Text PlayerDataText;
     string id, pass;
     private string uid;
 
-    //private IEnumerator Start()
-    //{
-    //    UnityWebRequest www = UnityWebRequest.Get(URL);
-    //    yield return www.SendWebRequest();
-
-    //    string data = www.downloadHandler.text; //
-    //    print(data);
-
-    //    WWWForm form = new WWWForm();
-    //    form.AddField("key", "키");
-    //    form.AddField("value", "값");
-
-    //    UnityWebRequest www2 = UnityWebRequest.Post(URL, form);
-    //    yield return www2.SendWebRequest();
-
-    //    string data2 = www2.downloadHandler.text; //
-    //    print(data2);
-    //}
-
-    public void Register()
+    public void Register(SendForm _postFrom)
     {
-        if (!SetIdPass())
+
+        if (!SetIdPass(_postFrom.id, _postFrom.password))
         {
             print("아이디 또는 비밀번호가 비어있음");
             return;
@@ -61,9 +50,9 @@ public class GoogleSheetManager : MonoBehaviour
 
         StartCoroutine(Post(form));
     }
-    public void Login()
+    public void Login(SendForm _postFrom)
     {
-        if (!SetIdPass())
+        if (!SetIdPass(_postFrom.id, _postFrom.password))
         {
             print("아이디 또는 비밀번호가 비어있음");
             return;
@@ -76,7 +65,7 @@ public class GoogleSheetManager : MonoBehaviour
 
         StartCoroutine(Post(form));
     }
-    public void GetUserStats()
+    public void GetUserStats() // Query 형식의 Get 양식
     {
         string[] _qs = new string[]
         {
@@ -101,7 +90,7 @@ public class GoogleSheetManager : MonoBehaviour
     }
     IEnumerator Post(WWWForm form)
     {
-        using (UnityWebRequest www = UnityWebRequest.Post(URL, form))
+        using (UnityWebRequest www = UnityWebRequest.Post(SERVER_URL, form))
         {
             yield return www.SendWebRequest();
             if (www.result != UnityWebRequest.Result.Success) Debug.Log(www.error);
@@ -110,50 +99,47 @@ public class GoogleSheetManager : MonoBehaviour
     }
     IEnumerator Get(string query)
     {
-        string fullUrl = $"{URL}?{query}";
-        Debug.Log(fullUrl);
-        using (UnityWebRequest www = UnityWebRequest.Get(fullUrl))
+        string URL_WITH_QUERY = $"{SERVER_URL}?{query}";
+        using (UnityWebRequest www = UnityWebRequest.Get(URL_WITH_QUERY))
         {
             yield return www.SendWebRequest();
             if (www.result != UnityWebRequest.Result.Success) Debug.Log(www.error);
             else Response(www.downloadHandler.text);
         }
     }
-    void Response(string json)
+    void Response(string _json)
     {
-        if (string.IsNullOrEmpty(json)) return;
-        Debug.Log(json);
-        GD = JsonUtility.FromJson<GoogleData>(json);
-        if(GD.result == "ERROR")
+        if (string.IsNullOrEmpty(_json)) return;
+        Debug.Log(_json);
+        ResponseData responseData = JsonUtility.FromJson<ResponseData>(_json);
+        if(responseData.result == "ERROR")
         {
-            print("!ERROR! : " + GD.msg);
+            print("!ERROR! : " + responseData.msg);
             return;
         }
-        print($"{GD.order} : {GD.msg}");
-        if (GD.order == "login") LoginTasks();
-        if (GD.order == "userStats") VisualizeUserStats();
-    }
-    void LoginTasks()
-    {
-        uid = GD.value.ToString();
-    }
-    void VisualizeUserStats()
-    {
+        print($"{responseData.order} : {responseData.msg}");
+        if (responseData.order == "login") LoginTasks(responseData);
+        if (responseData.order == "userStats") VisualizeUserStats(responseData);
 
-        US = JsonUtility.FromJson<UserStats>(GD.value);
-        UserStats.text =
-            $"UID   | {US.uid}\n" +
-            $"Name  | {US.name}\n" +
-            $"Level | {US.level}\n" +
-            $"EXP   | {US.exp}\n" +
-            $"HAVE  | {US.have_char}\n" +
-            $"Comment   | {US.comment}";
     }
-    bool SetIdPass()
+    void LoginTasks(ResponseData _responseData)
     {
-        id = IdInput.text.Trim();
-        pass = PassInput.text.Trim();
-        if (id == "" || pass == "") return false;
+        uid = _responseData.value.ToString();
+    }
+    void VisualizeUserStats(ResponseData _responseData)
+    {
+        DataManager.LoadUserData(_responseData.value);
+        PlayerDataText.text =
+            $"UID   | {DataManager.CurrentUserData.uid}\n" +
+            $"Name  | {DataManager.CurrentUserData.name}\n" +
+            $"Level | {DataManager.CurrentUserData.level}\n" +
+            $"EXP   | {DataManager.CurrentUserData.exp}\n" +
+            $"HaveCharacter  | {DataManager.CurrentUserData.haveChar}\n" +
+            $"Comment   | {DataManager.CurrentUserData.comment}";
+    }
+    bool SetIdPass(string _id, string _password)
+    {
+        if (_id.Trim() == "" || _password.Trim() == "") return false;
         else return true;
     }
     private void OnApplicationQuit()
