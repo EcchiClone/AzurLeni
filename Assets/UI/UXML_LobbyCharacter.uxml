@@ -2,7 +2,10 @@
     <Style src="project://database/Assets/UI/LobbyCharacter.uss?fileID=7433441132597879392&amp;guid=edda669d444518c4ca51b5e1fdb97b55&amp;type=3#LobbyCharacter" />
     <ui:VisualElement name="Master" style="flex-grow: 0; width: 100%; height: 100%; position: absolute; -unity-font-definition: initial; -unity-font-style: normal; -unity-font: url(&apos;project://database/Assets/Fonts/MotionControl-Bold.otf?fileID=12800000&amp;guid=86588b4c93e54ec428f9cbd0eaa74d96&amp;type=3#MotionControl-Bold&apos;); font-size: 32px; flex-shrink: 0;">
         <ui:VisualElement name="Tab4" class="tab">
-            <ui:VisualElement name="Tab4_Image" class="character-lobby" />
+            <ui:VisualElement name="Tab4_Image" class="character-lobby" style="display: flex; visibility: visible;" />
+            <ui:VisualElement name="Speech_Bubble" style="height: 150px; width: 750px; position: absolute; scale: 1 1; border-top-left-radius: 32px; border-top-right-radius: 32px; border-bottom-right-radius: 32px; border-bottom-left-radius: 32px; background-color: rgba(0, 0, 0, 0.67); align-self: center; flex-shrink: 0; justify-content: center; bottom: 150px; padding-top: 20px; padding-right: 20px; padding-bottom: 20px; padding-left: 20px;">
+                <ui:Label tabindex="-1" text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Speech" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; align-self: center; color: rgb(255, 255, 255); -unity-font: url(&apos;project://database/Assets/Fonts/MotionControl-Bold.otf?fileID=12800000&amp;guid=86588b4c93e54ec428f9cbd0eaa74d96&amp;type=3#MotionControl-Bold&apos;); font-size: 40px; -unity-text-align: middle-center; white-space: normal;" />
+            </ui:VisualElement>
         </ui:VisualElement>
         <ui:VisualElement name="Tab5" class="tab tab--right">
             <ui:VisualElement name="Tab5_Image" class="character-gacha" />

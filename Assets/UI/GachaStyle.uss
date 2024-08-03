@@ -47,7 +47,7 @@
     flex-grow: 0;
     width: 100%;
     height: 100%;
-    background-image: url('project://database/Assets/Images/Characters/0004.png?fileID=2800000&guid=724557d43b1f7db4396a777bcce4c7b6&type=3#0004');
+    background-image: url('project://database/Assets/Images/Characters/0016.png?fileID=2800000&guid=c914b5261a20f444da8f9286ad334539&type=3#0016');
     -unity-background-scale-mode: scale-to-fit;
     scale: 4 4;
     position: absolute;
