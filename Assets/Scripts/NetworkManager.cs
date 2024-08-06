@@ -29,7 +29,10 @@ public class NetworkManager : MonoBehaviour
 {
     public static NetworkManager instance;
 
+    public event Action OnRegisterCompleted;
     public event Action OnLoginCompleted;
+    public event Action OnLogoutCompleted;
+    public event Action OnGetUserDataCompleted;
 
     private void Awake()
     {
@@ -40,63 +43,61 @@ public class NetworkManager : MonoBehaviour
 
     const string SERVER_URL = "https://script.google.com/macros/s/AKfycbzmo8fkRtX1qF9WTxnI2lxjshyRnkU4O87IaCit2vz9aCxoPX2eX-JImUzBq3r_M3J2/exec";
 
-    public void Register(SendForm _sendForm)
+    public void Post(SendForm _form)
     {
-
-        if (!IsSetIdPass(_sendForm.id, _sendForm.password))
-        {
-            print("아이디 또는 비밀번호가 비어있음");
-            return;
-        }
-
         WWWForm form = new WWWForm();
 
-        form.AddField("order", _sendForm.order);
-        form.AddField("id", _sendForm.id);
-        form.AddField("pass", _sendForm.password);
+        AddFieldIfNotNull(form, "uid", _form.uid);
+        AddFieldIfNotNull(form, "order", _form.order);
+        AddFieldIfNotNull(form, "value", _form.value);
+        AddFieldIfNotNull(form, "id", _form.id);
+        AddFieldIfNotNull(form, "pass", _form.password);
 
-        StartCoroutine(Post(form));
+        StartCoroutine(ExecutePost(form));
     }
-    public void Login(SendForm _postFrom)
+
+    private void AddFieldIfNotNull(WWWForm form, string fieldName, string fieldValue)
     {
-        if (!IsSetIdPass(_postFrom.id, _postFrom.password))
+        if (fieldValue != null)
         {
-            print("아이디 또는 비밀번호가 비어있음");
-            return;
+            form.AddField(fieldName, fieldValue);
         }
-
-        WWWForm form = new WWWForm();
-
-        form.AddField("order", "login");
-        form.AddField("id", _postFrom.id);
-        form.AddField("pass", _postFrom.password);
-
-        StartCoroutine(Post(form));
-    }
-    public void RequestUserData() // Query 형식의 Get 양식
-    {
-        string[] _queryElements = new string[]
-        {
-            $"uid={DataManager.CurrentUserData.uid}",
-            $"order=userData",
-        };
-        StartCoroutine(Get(CombineQueries(_queryElements)));
     }
 
-    public string CombineQueries(string[] _queryElements)
+    public void Get(SendForm _form)
     {
-        StringBuilder _out = new StringBuilder();
-        for (int i = 0; i < _queryElements.Length; i++)
+        string query = BuildQuery(_form);
+        StartCoroutine(ExecuteGet(query));
+    }
+
+    private string BuildQuery(SendForm _form)
+    {
+        StringBuilder query = new StringBuilder();
+        bool first = true;
+
+        void AddQueryParam(string name, string value)
         {
-            _out.Append(_queryElements[i]);
-            if (i < _queryElements.Length - 1)
+            if (value != null)
             {
-                _out.Append("&");
+                if (!first)
+                {
+                    query.Append("&");
+                }
+                query.Append($"{name}={UnityWebRequest.EscapeURL(value)}");
+                first = false;
             }
         }
-        return _out.ToString();
+
+        AddQueryParam("uid", _form.uid);
+        AddQueryParam("order", _form.order);
+        AddQueryParam("value", _form.value);
+        AddQueryParam("id", _form.id);
+        AddQueryParam("pass", _form.password);
+
+        return query.ToString();
     }
-    IEnumerator Post(WWWForm _form)
+
+    IEnumerator ExecutePost(WWWForm _form)
     {
         using (UnityWebRequest www = UnityWebRequest.Post(SERVER_URL, _form))
         {
@@ -105,7 +106,7 @@ public class NetworkManager : MonoBehaviour
             else Response(www.downloadHandler.text);
         }
     }
-    IEnumerator Get(string _queryString)
+    IEnumerator ExecuteGet(string _queryString)
     {
         string URL_WITH_QUERY = $"{SERVER_URL}?{_queryString}";
         using (UnityWebRequest www = UnityWebRequest.Get(URL_WITH_QUERY))
@@ -122,34 +123,57 @@ public class NetworkManager : MonoBehaviour
 
         ResponseData responseData = JsonUtility.FromJson<ResponseData>(_json);
 
-        if(responseData.result == "ERROR") { print("!ERROR! : " + responseData.msg); return; }
+        if (responseData.result == "ERROR")
+        {
+            print("!ERROR! : " + responseData.msg);
+            LogText.AddLog(responseData.msg, LogSign.Error);
+            return;
+        }
 
         switch (responseData.order)
         {
+            case "register":    RegisterTasks(responseData); break;
             case "login":       LoginTasks(responseData); break;
+            case "logout":      LogoutTasks(responseData); break;
+
             case "userData":    SetCurrentUserData(responseData); break;
         }
+    }
+    void RegisterTasks(ResponseData _responseData)
+    {
+        LogText.AddLog(_responseData.msg);
+        OnRegisterCompleted?.Invoke();
     }
     void LoginTasks(ResponseData _responseData)
     {
         DataManager.LoadUserID(_responseData.value.ToString());
-        RequestUserData();
+        LogText.AddLog(_responseData.msg);
+        OnLoginCompleted?.Invoke();
+
+        Get(new SendForm() { order = "userData", uid = DataManager.CurrentUserData.uid });
+    }
+    void LogoutTasks(ResponseData _responseData)
+    {
+        DataManager.ClearUserData();
+        LogText.AddLog(_responseData.msg);
+        OnLogoutCompleted?.Invoke();
+
+        Get(new SendForm() { order = "userData", uid = DataManager.CurrentUserData.uid });
     }
     void SetCurrentUserData(ResponseData _responseData)
     {
         DataManager.LoadUserData(_responseData.value);
-        OnLoginCompleted?.Invoke();
+        LogText.AddLog(_responseData.msg);
+        OnGetUserDataCompleted?.Invoke();
     }
-    bool IsSetIdPass(string _id, string _password)
-    {
-        if (_id.Trim() == "" || _password.Trim() == "") return false;
-        else return true;
-    }
+
     private void OnApplicationQuit()
     {
-        WWWForm form = new WWWForm();
-        form.AddField("uid", DataManager.CurrentUserData.uid);
-        form.AddField("order", "logout");
-        StartCoroutine(Post(form));
+        SendForm sendForm = new SendForm()
+        {
+            uid = DataManager.CurrentUserData.uid,
+            order = "logout",
+        };
+        Post(sendForm);
     }
 }

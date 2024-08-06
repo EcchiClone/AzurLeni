@@ -4,40 +4,70 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using Random = UnityEngine.Random;
 
-public class UIController : MonoBehaviour
+public class UIControllerLobby : MonoBehaviour
 {
+    // 컴포넌트 클래스
     public UIDocument UI_Background;
     public UIDocument UI_Character;
     public UIDocument UI_LobbyUI;
     public UIDocument UI_Gacha;
 
+    // 각 UI의 Root VisualElement
     private VisualElement root_Background;
     private VisualElement root_Character;
     private VisualElement root_LobbyUI;
     private VisualElement root_Gacha;
 
-    private VisualElement lobbyBackImg;
-    private List<VisualElement>[] tabElements;
+    // Buttons
     private Button[] tabBtns;
-
     private Button toLobbyBtn;
     private Button buildBtn;
     private Button gachaUiMoreBtn;
     private Button gachaUiOkBtn;
 
+    // 동적 요소
+    private List<VisualElement>[] tabElements;
     private VisualElement[] gachaPanels;
+    private VisualElement lobbyBackImg;
 
+    // 변수
     private int currentTabNum;
     private int newTabNum;
 
     void Start()
     {
+        SetRootElement();
+
+        SetTabSettings(); // 각 탭버튼 클릭 시 반응(슬라이드) 할 모든 요소 추가
+
+        SetGachaUI(); // 가챠 UI 관련 세팅
+
+        foreach (var tabBtn in tabBtns)
+        {
+            tabBtn.RegisterCallback<ClickEvent>(OnBottomTabBtnClicked);
+        }
+
+        buildBtn = root_LobbyUI.Q<Button>("Button-Build");
+        buildBtn.RegisterCallback<ClickEvent>(OnBuildBtnClicked);
+
+        gachaUiMoreBtn = root_Gacha.Q<Button>("Button-More");
+        gachaUiMoreBtn.RegisterCallback<ClickEvent>(OnGachaUiReBuildBtnClicked);
+
+        gachaUiOkBtn = root_Gacha.Q<Button>("Button-OK");
+        gachaUiOkBtn.RegisterCallback<ClickEvent>(OnGachaUiOkBtnClicked);
+
+        SetupYoyo();
+    }
+
+    private void SetRootElement()
+    {
         root_Background = UI_Background.GetComponent<UIDocument>().rootVisualElement;
         root_Character = UI_Character.GetComponent<UIDocument>().rootVisualElement;
         root_LobbyUI = UI_LobbyUI.GetComponent<UIDocument>().rootVisualElement;
         root_Gacha = UI_Gacha.GetComponent<UIDocument>().rootVisualElement;
-
-        lobbyBackImg = root_Background.Q<VisualElement>("BackgroundImage");
+    }
+    private void SetTabSettings()
+    {
         currentTabNum = 4;
 
         tabElements = new List<VisualElement>[]{
@@ -75,7 +105,10 @@ public class UIController : MonoBehaviour
             root_LobbyUI.Q<Button>("Btn_Guild"),
             root_LobbyUI.Q<Button>("Btn_Square"),
         };
-
+        lobbyBackImg = root_Background.Q<VisualElement>("BackgroundImage");
+    }
+    private void SetGachaUI()
+    {
         gachaPanels = new VisualElement[]{
             root_Gacha.Q<VisualElement>("Panel0"),
             root_Gacha.Q<VisualElement>("Panel1"),
@@ -88,22 +121,6 @@ public class UIController : MonoBehaviour
             root_Gacha.Q<VisualElement>("Panel8"),
             root_Gacha.Q<VisualElement>("Panel9"),
         };
-
-        foreach (var tabBtn in tabBtns)
-        {
-            tabBtn.RegisterCallback<ClickEvent>(OnBottomTabBtnClicked);
-        }
-
-        buildBtn = root_LobbyUI.Q<Button>("Button-Build");
-        buildBtn.RegisterCallback<ClickEvent>(OnBuildBtnClicked);
-
-        gachaUiMoreBtn = root_Gacha.Q<Button>("Button-More");
-        gachaUiMoreBtn.RegisterCallback<ClickEvent>(OnGachaUiReBuildBtnClicked);
-
-        gachaUiOkBtn = root_Gacha.Q<Button>("Button-OK");
-        gachaUiOkBtn.RegisterCallback<ClickEvent>(OnGachaUiOkBtnClicked);
-
-        SetupYoyo();
     }
     private void SetupYoyo()
     {

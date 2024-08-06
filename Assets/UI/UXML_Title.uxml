@@ -1,0 +1,31 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/UI/TitleStyle.uss?fileID=7433441132597879392&amp;guid=930971a00ec418e47ac172cb3e65c80f&amp;type=3#TitleStyle" />
+    <ui:VisualElement name="MasterBackground" style="position: absolute; width: 100%; height: 100%;">
+        <ui:VisualElement name="BackgroundImage" style="background-image: resource(&apos;Images/Background/{{masterpiece}}, best quality, high quality,wallpaper, Background, {{scenery}},  s-1249484922&apos;); width: 100%; height: 100%;" />
+    </ui:VisualElement>
+    <ui:VisualElement name="MasterElements" style="flex-grow: 1;">
+        <ui:VisualElement name="ForLoginElements" style="position: absolute; width: 600px; align-self: center; top: 40%; height: 25%; justify-content: space-between; display: flex;">
+            <ui:TextField picking-mode="Ignore" label="ID" name="IDTextField" class="title-inputfield" />
+            <ui:TextField picking-mode="Ignore" label="Password" name="PasswordTextField" class="title-inputfield" />
+            <ui:VisualElement style="flex-direction: row; justify-content: space-around;">
+                <ui:Button text="Register" parse-escape-sequences="true" display-tooltip-when-elided="true" name="RegisterButton" class="title-button" />
+                <ui:Button text="Login" parse-escape-sequences="true" display-tooltip-when-elided="true" name="LoginButton" class="title-button" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+        <ui:VisualElement name="LoginSuccessElements" style="position: absolute; width: 600px; align-self: center; top: 40%; height: 25%; justify-content: space-between; display: none;">
+            <ui:VisualElement style="background-color: rgba(0, 0, 0, 0.5); width: 95%; align-self: center; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 10px; padding-right: 10px; padding-bottom: 10px; padding-left: 10px; height: 65%; border-top-width: 4px; border-right-width: 4px; border-bottom-width: 4px; border-left-width: 4px; border-left-color: rgb(255, 255, 255); border-right-color: rgb(255, 255, 255); border-top-color: rgb(255, 255, 255); border-bottom-color: rgb(255, 255, 255); border-top-left-radius: 10px; border-top-right-radius: 10px; border-bottom-right-radius: 10px; border-bottom-left-radius: 10px; flex-direction: row;">
+                <ui:Label tabindex="-1" text="UID&#10;Name&#10;Level" parse-escape-sequences="true" display-tooltip-when-elided="true" style="font-size: 28px; color: rgb(255, 255, 255); white-space: normal; width: 24%; -unity-paragraph-spacing: 50px;" />
+                <ui:Label tabindex="-1" parse-escape-sequences="true" display-tooltip-when-elided="true" name="UserData" style="font-size: 28px; color: rgb(255, 255, 255); white-space: nowrap; -unity-paragraph-spacing: 50px;" />
+            </ui:VisualElement>
+            <ui:VisualElement style="flex-direction: row; justify-content: space-around;">
+                <ui:Button text="Lobby" parse-escape-sequences="true" display-tooltip-when-elided="true" name="LobbyButton" class="title-button" />
+                <ui:Button text="Logout" parse-escape-sequences="true" display-tooltip-when-elided="true" name="LogoutButton" class="title-button" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+        <ui:VisualElement name="ViewElements" style="position: absolute;">
+            <ui:VisualElement name="LogElement" style="position: absolute; top: 433px; right: -1804px; width: 500px; height: 267px; background-color: rgba(0, 0, 0, 0.66); border-top-left-radius: 15px; border-top-right-radius: 15px; border-bottom-right-radius: 15px; border-bottom-left-radius: 15px;">
+                <ui:ScrollView name="LogScrollView" style="position: relative; width: 100%; height: 100%; padding-right: 10px; padding-top: 10px; padding-bottom: 10px; padding-left: 10px;" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

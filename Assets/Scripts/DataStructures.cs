@@ -1,5 +1,23 @@
 using UnityEngine;
 
+public enum LogSign
+{
+    Normal,
+    Warning,
+    Error,
+}
+public enum UserState
+{
+    LoggedIn,
+    LoggedOut,
+}
+
+public class UserData
+{
+    public string uid, name, haveChar, comment;
+    public int level, exp;
+}
+
 public class CharacterData
 {
     public int id;
