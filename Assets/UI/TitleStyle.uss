@@ -16,13 +16,15 @@
 .title-inputfield {
     font-size: 30px;
 }
+
 .title-inputfield Label {
     color: rgb(255, 255, 255);
-    
 }
+
 .title-inputfield #unity-text-input {
     border-radius: 10px;
 }
+
 .title-inputfield #unity-text-input TextElement {
     font-size: 28px;
     color: rgb(0, 0, 0);
@@ -41,10 +43,12 @@
     padding-bottom: 0;
     padding-left: 0;
 }
+
 .log-warning {
     background-color: rgb(255, 255, 0);
     color: rgb(0, 0, 0);
 }
+
 .log-error {
     background-color: rgb(255, 0, 0);
     color: rgb(255, 255, 255);

@@ -150,6 +150,7 @@ public class NetworkManager : MonoBehaviour
         LogText.AddLog(_responseData.msg);
         OnLoginCompleted?.Invoke();
 
+        LogText.AddLog("유저의 게임 데이터 요청 시도");
         Get(new SendForm() { order = "userData", uid = DataManager.CurrentUserData.uid });
     }
     void LogoutTasks(ResponseData _responseData)
@@ -157,8 +158,6 @@ public class NetworkManager : MonoBehaviour
         DataManager.ClearUserData();
         LogText.AddLog(_responseData.msg);
         OnLogoutCompleted?.Invoke();
-
-        Get(new SendForm() { order = "userData", uid = DataManager.CurrentUserData.uid });
     }
     void SetCurrentUserData(ResponseData _responseData)
     {
