@@ -119,7 +119,7 @@ public class NetworkManager : MonoBehaviour
     void Response(string _json)
     {
         if (string.IsNullOrEmpty(_json)) return;
-        print(_json); // ¹Ş¾Æ¿Â ³»¿ë Debug
+        print(_json); // ë°›ì•„ì˜¨ ë‚´ìš© Debug
 
         ResponseData responseData = JsonUtility.FromJson<ResponseData>(_json);
 
@@ -150,7 +150,7 @@ public class NetworkManager : MonoBehaviour
         LogText.AddLog(_responseData.msg);
         OnLoginCompleted?.Invoke();
 
-        LogText.AddLog("À¯ÀúÀÇ °ÔÀÓ µ¥ÀÌÅÍ ¿äÃ» ½Ãµµ");
+        LogText.AddLog("ìœ ì €ì˜ ê²Œì„ ë°ì´í„° ìš”ì²­ ì‹œë„");
         Get(new SendForm() { order = "userData", uid = DataManager.CurrentUserData.uid });
     }
     void LogoutTasks(ResponseData _responseData)

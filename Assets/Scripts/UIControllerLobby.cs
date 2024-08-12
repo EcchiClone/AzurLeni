@@ -6,13 +6,13 @@ using Random = UnityEngine.Random;
 
 public class UIControllerLobby : MonoBehaviour
 {
-    // ÄÄÆ÷³ÍÆ® Å¬·¡½º
+    // ì»´í¬ë„ŒíŠ¸ í´ë˜ìŠ¤
     public UIDocument UI_Background;
     public UIDocument UI_Character;
     public UIDocument UI_LobbyUI;
     public UIDocument UI_Gacha;
 
-    // °¢ UIÀÇ Root VisualElement
+    // ê° UIì˜ Root VisualElement
     private VisualElement root_Background;
     private VisualElement root_Character;
     private VisualElement root_LobbyUI;
@@ -25,12 +25,12 @@ public class UIControllerLobby : MonoBehaviour
     private Button gachaUiMoreBtn;
     private Button gachaUiOkBtn;
 
-    // µ¿Àû ¿ä¼Ò
+    // ë™ì  ìš”ì†Œ
     private List<VisualElement>[] tabElements;
     private VisualElement[] gachaPanels;
     private VisualElement lobbyBackImg;
 
-    // º¯¼ö
+    // ë³€ìˆ˜
     private int currentTabNum;
     private int newTabNum;
 
@@ -38,9 +38,9 @@ public class UIControllerLobby : MonoBehaviour
     {
         SetRootElement();
 
-        SetTabSettings(); // °¢ ÅÇ¹öÆ° Å¬¸¯ ½Ã ¹İÀÀ(½½¶óÀÌµå) ÇÒ ¸ğµç ¿ä¼Ò Ãß°¡
+        SetTabSettings(); // ê° íƒ­ë²„íŠ¼ í´ë¦­ ì‹œ ë°˜ì‘(ìŠ¬ë¼ì´ë“œ) í•  ëª¨ë“  ìš”ì†Œ ì¶”ê°€
 
-        SetGachaUI(); // °¡Ã­ UI °ü·Ã ¼¼ÆÃ
+        SetGachaUI(); // ê°€ì±  UI ê´€ë ¨ ì„¸íŒ…
 
         foreach (var tabBtn in tabBtns)
         {
@@ -188,13 +188,13 @@ public class UIControllerLobby : MonoBehaviour
     {
         for (int i = 0; i < 10; i++)
         {
-            int randomIndex = Random.Range(1, 49); // 1ºÎÅÍ 48±îÁö Æ÷ÇÔ
-            string fileName = randomIndex.ToString("D4"); // 4ÀÚ¸® ¼ıÀÚ·Î Æ÷¸ËÆÃ
+            int randomIndex = Random.Range(1, 49); // 1ë¶€í„° 48ê¹Œì§€ í¬í•¨
+            string fileName = randomIndex.ToString("D4"); // 4ìë¦¬ ìˆ«ìë¡œ í¬ë§·íŒ…
 
             Texture2D texture = Resources.Load<Texture2D>($"Images/Character/Full/{fileName}");
 
             if (texture != null) gachaPanels[i].Q<VisualElement>("Pic").style.backgroundImage = new StyleBackground(texture);
-            else Debug.LogWarning($"ÅØ½ºÃÄ¸¦ Ã£À» ¼ö ¾øÀ½: {fileName}");
+            else Debug.LogWarning($"í…ìŠ¤ì³ë¥¼ ì°¾ì„ ìˆ˜ ì—†ìŒ: {fileName}");
         }
     }
     private void OnGachaUiReBuildBtnClicked(ClickEvent evt)

@@ -8,7 +8,7 @@ using UnityEngine.UIElements;
 
 public class UIControllerTitle : MonoBehaviour
 {
-    // ÄÄÆ÷³ÍÆ® Å¬·¡½º, Root VisualElement
+    // ì»´í¬ë„ŒíŠ¸ í´ë˜ìŠ¤, Root VisualElement
     public UIDocument UI_Title;
     private VisualElement root_title;
 
@@ -51,8 +51,8 @@ public class UIControllerTitle : MonoBehaviour
     {
         if (IDTextField.text.Trim() == "" || PasswordTextField.text.Trim() == "")
         {
-            print("¾ÆÀÌµğ ¶Ç´Â ºñ¹Ğ¹øÈ£°¡ ºñ¾îÀÖÀ½");
-            LogText.AddLog("¾ÆÀÌµğ ¶Ç´Â ºñ¹Ğ¹øÈ£°¡ ºñ¾îÀÖÀ½", LogSign.Warning);
+            print("ì•„ì´ë”” ë˜ëŠ” ë¹„ë°€ë²ˆí˜¸ê°€ ë¹„ì–´ìˆìŒ");
+            LogText.AddLog("ì•„ì´ë”” ë˜ëŠ” ë¹„ë°€ë²ˆí˜¸ê°€ ë¹„ì–´ìˆìŒ", LogSign.Warning);
             return;
         }
         SendForm sendForm = new SendForm()
@@ -68,8 +68,8 @@ public class UIControllerTitle : MonoBehaviour
     {
         if (IDTextField.text.Trim() == "" || PasswordTextField.text.Trim() == "")
         {
-            print("¾ÆÀÌµğ ¶Ç´Â ºñ¹Ğ¹øÈ£°¡ ºñ¾îÀÖÀ½");
-            LogText.AddLog("¾ÆÀÌµğ ¶Ç´Â ºñ¹Ğ¹øÈ£°¡ ºñ¾îÀÖÀ½", LogSign.Warning);
+            print("ì•„ì´ë”” ë˜ëŠ” ë¹„ë°€ë²ˆí˜¸ê°€ ë¹„ì–´ìˆìŒ");
+            LogText.AddLog("ì•„ì´ë”” ë˜ëŠ” ë¹„ë°€ë²ˆí˜¸ê°€ ë¹„ì–´ìˆìŒ", LogSign.Warning);
             return;
         }
         SendForm sendForm = new SendForm()

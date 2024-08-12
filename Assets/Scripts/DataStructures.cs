@@ -22,8 +22,8 @@ public class UserData
     public int level;
     public int exp;
     public Inventory inventory;
-    // (Ãß°¡¿¹Á¤)¼ÒÁö Ä³¸¯ÅÍ Á¤º¸
-    // (Ãß°¡¿¹Á¤)¼ÒÁö Àåºñ Á¤º¸
+    public List<Character> character;
+    // (ì¶”ê°€ì˜ˆì •)ì†Œì§€ ìž¥ë¹„ ì •ë³´
 }
 
 [System.Serializable]
@@ -49,30 +49,50 @@ public class InventoryItem
     public string memo { get; set; }
 }
 
-public class CharacterData
+[System.Serializable]
+public class B_Character
 {
     public int id;
     public string name;
     public string desc;
+    public string region;
+    public string job;
+    public int rarity;
+    public int baseHp;
+    public int baseDamage;
+
+    public string imgFullPath;
+    public string imgPanelPath;
+    public string imgIconPath;
+
+    [System.NonSerialized]
     public Sprite img_full;
+    [System.NonSerialized]
     public Sprite img_panel;
+    [System.NonSerialized]
     public Sprite img_icon;
 
-    public CharacterStats stats;
-}
-public class CharacterStats
-{
-    // From Base GameData
-    public int baseHp;
-    public int baseDmg;
+    public void LoadSprites()
+    {
+        img_full = LoadSpriteFromPath(imgFullPath);
+        //img_panel = LoadSpriteFromPath(imgPanelPath);
+        //img_icon = LoadSpriteFromPath(imgIconPath);
+    }
 
-    // From UserData
+    private Sprite LoadSpriteFromPath(string _path)
+    {
+        return Resources.Load<Sprite>($"Images/Character/{_path}");
+    }
+}
+[System.Serializable]
+public class Character
+{
+    public int id;
+
     public int level;
     public int exp;
-
-    public int plusHp;
-    public int plusDmg;
-
-    public int multipleHp;
-    public int multipleDmg;
-} 
+    public string memo;
+    public int hpPlus;
+    public int damagePlus;
+    public int equip;
+}

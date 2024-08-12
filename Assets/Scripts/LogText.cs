@@ -18,20 +18,20 @@ public class LogText : MonoBehaviour
 
     private static void ScrollToBottom(VisualElement item)
     {
-        // ½ºÅ©·Ñ ÀÌ½´ ÇØ°á https://discussions.unity.com/t/solved-scrollview-scroll-to-bottom/882578/7
+        // ìŠ¤í¬ë¡¤ ì´ìŠˆ í•´ê²° https://discussions.unity.com/t/solved-scrollview-scroll-to-bottom/882578/7
 
-        // Åë½Å ¾ø´Â °æ¿ìÀÇ Áï°¢ÀûÀÎ ·Î±× ´ëÀÀ ÇÊ¿äÇÔ. ÇÑÁÙ¾¿ ¹Ğ¸². ¾Æ·¡ µÎ ±¸¹® ½ÇÆĞ.
-        // ´õ ½Ã°£ ¾²±â¿¡ ³¶ºñ¶ó°í »ı°¢ÇØ¼­ ÀÏ´Ü ÇØ°á º¸·ù
+        // í†µì‹  ì—†ëŠ” ê²½ìš°ì˜ ì¦‰ê°ì ì¸ ë¡œê·¸ ëŒ€ì‘ í•„ìš”í•¨. í•œì¤„ì”© ë°€ë¦¼. ì•„ë˜ ë‘ êµ¬ë¬¸ ì‹¤íŒ¨.
+        // ë” ì‹œê°„ ì“°ê¸°ì— ë‚­ë¹„ë¼ê³  ìƒê°í•´ì„œ ì¼ë‹¨ í•´ê²° ë³´ë¥˜
         //logScrollView.verticalScroller.value = logScrollView.verticalScroller.highValue > 0 ? logScrollView.verticalScroller.highValue : 0;
         //StartCoroutine(ScrollToItemNextFrame(item));
-        logScrollView.schedule.Execute(() => logScrollView.ScrollTo(item)); // Åë½Å µî ½ºÄÉÁì ÀÖ´Â °æ¿ì ´ëÀÀ
+        logScrollView.schedule.Execute(() => logScrollView.ScrollTo(item)); // í†µì‹  ë“± ìŠ¤ì¼€ì¥´ ìˆëŠ” ê²½ìš° ëŒ€ì‘
     }
 
     public static void AddLog(string message, LogSign _logSign = LogSign.Normal)
     {
         try
         {
-            // »õ·Î¿î Label »ı¼º
+            // ìƒˆë¡œìš´ Label ìƒì„±
             Label newLogLabel = new Label();
             newLogLabel.text = $"[System] {message}";
             newLogLabel.AddToClassList("log-label");
@@ -45,10 +45,10 @@ public class LogText : MonoBehaviour
             }
 
 
-            // ScrollView¿¡ Label Ãß°¡
+            // ScrollViewì— Label ì¶”ê°€
             logScrollView.Add(newLogLabel);
 
-            // ½ºÅ©·ÑÀ» °¡Àå ¾Æ·¡·Î ÀÌµ¿
+            // ìŠ¤í¬ë¡¤ì„ ê°€ì¥ ì•„ë˜ë¡œ ì´ë™
             ScrollToBottom(newLogLabel);
         }
         catch (Exception e)
@@ -71,9 +71,9 @@ public class LogText : MonoBehaviour
 
     private IEnumerator ScrollToItemNextFrame(VisualElement item)
     {
-        yield return null; // ÇÑ ÇÁ·¹ÀÓ ´ë±â
+        yield return null; // í•œ í”„ë ˆì„ ëŒ€ê¸°
 
-        // logScrollViewÀÇ ScrollTo ¸Ş¼­µå¸¦ 1ÇÁ·¹ÀÓ µÚ¿¡ È£Ãâ
+        // logScrollViewì˜ ScrollTo ë©”ì„œë“œë¥¼ 1í”„ë ˆì„ ë’¤ì— í˜¸ì¶œ
         logScrollView.ScrollTo(item);
     }
 }

@@ -28,6 +28,8 @@ public class DataManager : MonoBehaviour
         print(CurrentUserData);
         print(CurrentUserData.inventory);
         print(CurrentUserData.inventory.item_general);
+        print(CurrentUserData.character);
+        print(CurrentUserData.character[0]);
     }
     public static void ClearUserData()
     {
