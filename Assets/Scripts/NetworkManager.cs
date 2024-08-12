@@ -1,3 +1,4 @@
+using Newtonsoft.Json;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -7,6 +8,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.UI;
+using UnityEngine.UIElements;
 
 public class SendForm
 {
@@ -33,6 +35,9 @@ public class NetworkManager : MonoBehaviour
     public event Action OnLoginCompleted;
     public event Action OnLogoutCompleted;
     public event Action OnGetUserDataCompleted;
+    public event Action OnDownloadGameDataCompleted;
+
+    const string SERVER_URL = "https://script.google.com/macros/s/AKfycbzmo8fkRtX1qF9WTxnI2lxjshyRnkU4O87IaCit2vz9aCxoPX2eX-JImUzBq3r_M3J2/exec";
 
     private void Awake()
     {
@@ -41,7 +46,20 @@ public class NetworkManager : MonoBehaviour
         DontDestroyOnLoad(this.gameObject);
     }
 
-    const string SERVER_URL = "https://script.google.com/macros/s/AKfycbzmo8fkRtX1qF9WTxnI2lxjshyRnkU4O87IaCit2vz9aCxoPX2eX-JImUzBq3r_M3J2/exec";
+    private void Start()
+    {
+        GetGameData();
+    }
+    private void GetGameData()
+    {
+
+        LogText.AddLog("게임 데이터 요청 시도");
+        SendForm sendForm = new SendForm()
+        {
+            order = "gameData",
+        };
+        NetworkManager.instance.Get(sendForm);
+    }
 
     public void Post(SendForm _form)
     {
@@ -125,10 +143,12 @@ public class NetworkManager : MonoBehaviour
 
         if (responseData.result == "ERROR")
         {
-            print("!ERROR! : " + responseData.msg);
+            print("ERROR : " + responseData.msg);
             LogText.AddLog(responseData.msg, LogSign.Error);
             return;
         }
+
+        print($"{responseData.order} : {responseData.msg}");
 
         switch (responseData.order)
         {
@@ -137,6 +157,9 @@ public class NetworkManager : MonoBehaviour
             case "logout":      LogoutTasks(responseData); break;
 
             case "userData":    SetCurrentUserData(responseData); break;
+            case "gameData":    DownloadGameData(responseData); break;
+
+            case "uploadUserCharacterData": UploadUserCharacterDataResponse(responseData); break;
         }
     }
     void RegisterTasks(ResponseData _responseData)
@@ -150,11 +173,13 @@ public class NetworkManager : MonoBehaviour
         LogText.AddLog(_responseData.msg);
         OnLoginCompleted?.Invoke();
 
-        LogText.AddLog("유저의 게임 데이터 요청 시도");
-        Get(new SendForm() { order = "userData", uid = DataManager.CurrentUserData.uid });
+        LogText.AddLog("유저 데이터 요청 시도");
+        Get(new SendForm() { order = "userData", uid = DataManager._UserData.uid });
     }
     void LogoutTasks(ResponseData _responseData)
     {
+        UploadUserCharacterData();
+
         DataManager.ClearUserData();
         LogText.AddLog(_responseData.msg);
         OnLogoutCompleted?.Invoke();
@@ -165,12 +190,33 @@ public class NetworkManager : MonoBehaviour
         LogText.AddLog(_responseData.msg);
         OnGetUserDataCompleted?.Invoke();
     }
+    void DownloadGameData(ResponseData _responseData)
+    {
+        DataManager.LoadGameData(_responseData.value);
+        LogText.AddLog(_responseData.msg);
+        OnDownloadGameDataCompleted?.Invoke();
+    }
+    void UploadUserCharacterData()
+    {
+        string characterDataJson = JsonConvert.SerializeObject(DataManager._UserData.character);
+        SendForm sendForm = new SendForm()
+        {
+            uid = DataManager._UserData.uid,
+            order = "uploadUserCharacterData",
+            value = characterDataJson,
+        };
+        Post(sendForm);
+    }
+    void UploadUserCharacterDataResponse(ResponseData _responseData)
+    {
+        LogText.AddLog(_responseData.msg);
+    }
 
     private void OnApplicationQuit()
     {
         SendForm sendForm = new SendForm()
         {
-            uid = DataManager.CurrentUserData.uid,
+            uid = DataManager._UserData.uid,
             order = "logout",
         };
         Post(sendForm);

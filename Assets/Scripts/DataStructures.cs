@@ -22,7 +22,7 @@ public class UserData
     public int level;
     public int exp;
     public Inventory inventory;
-    public List<Character> character;
+    public List<UserCharacter> character;
     // (추가예정)소지 장비 정보
 }
 
@@ -85,14 +85,24 @@ public class B_Character
     }
 }
 [System.Serializable]
-public class Character
+public class UserCharacter
 {
     public int id;
 
-    public int level;
-    public int exp;
-    public string memo;
-    public int hpPlus;
-    public int damagePlus;
-    public int equip;
+    public int level = 0;
+    public int exp = 0;
+    public string memo = "";
+    public int hpPlus = 0;
+    public int damagePlus = 0;
+    public int equip = 0;
+}
+
+[System.Serializable]
+public class GameData
+{
+    public string version;
+    public int totalCharacterCount;
+    
+    // 캐릭터 베이스 정보
+    // 기타 게임 데이터
 }

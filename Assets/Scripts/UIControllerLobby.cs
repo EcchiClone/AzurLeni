@@ -29,10 +29,13 @@ public class UIControllerLobby : MonoBehaviour
     private List<VisualElement>[] tabElements;
     private VisualElement[] gachaPanels;
     private VisualElement lobbyBackImg;
+    private VisualElement acquiredCharacterPanel;
+    private VisualElement unacquiredCharacterPanel;
 
     // 변수
     private int currentTabNum;
     private int newTabNum;
+
 
     void Start()
     {
@@ -41,6 +44,8 @@ public class UIControllerLobby : MonoBehaviour
         SetTabSettings(); // 각 탭버튼 클릭 시 반응(슬라이드) 할 모든 요소 추가
 
         SetGachaUI(); // 가챠 UI 관련 세팅
+
+        SetEtcSettings();
 
         foreach (var tabBtn in tabBtns)
         {
@@ -57,6 +62,8 @@ public class UIControllerLobby : MonoBehaviour
         gachaUiOkBtn.RegisterCallback<ClickEvent>(OnGachaUiOkBtnClicked);
 
         SetupYoyo();
+
+        DockViewUpdate();
     }
 
     private void SetRootElement()
@@ -122,6 +129,11 @@ public class UIControllerLobby : MonoBehaviour
             root_Gacha.Q<VisualElement>("Panel9"),
         };
     }
+    private void SetEtcSettings()
+    {
+        acquiredCharacterPanel = root_LobbyUI.Q<VisualElement>("AcquiredCharacterPanel");
+        unacquiredCharacterPanel = root_LobbyUI.Q<VisualElement>("UnacquiredCharacterPanel");
+    }
     private void SetupYoyo()
     {
         List<VisualElement> yoyoElements = new List<VisualElement>();
@@ -177,6 +189,8 @@ public class UIControllerLobby : MonoBehaviour
         currentTabNum = newTabNum;
         lobbyBackImg.style.translate = new Translate(new Length(0f+(newTabNum-4f)*2f, LengthUnit.Percent), 0f);
     }
+
+    // Tab5 가챠 관련
     private void OnBuildBtnClicked(ClickEvent evt)
     {
         TmpNewGachaTen();
@@ -205,4 +219,46 @@ public class UIControllerLobby : MonoBehaviour
     {
         root_Gacha.Q<VisualElement>("Master").style.display = DisplayStyle.None;
     }
+
+    // Tab1 도크 관련
+    private void DockViewUpdate()
+    {
+        foreach(UserCharacter character in DataManager._UserData.character)
+        {
+            if(character.level > 0)
+            {
+                acquiredCharacterPanel.Add(CreateCharacterPanel(character.id));
+            }
+            else
+            {
+                unacquiredCharacterPanel.Add(CreateCharacterPanel(character.id));
+            }
+        }
+        
+    }
+    private VisualElement CreateCharacterPanel(int _characterNum)
+    {
+        VisualElement characterPanel = new VisualElement();
+        VisualElement image = new VisualElement();
+        VisualElement nameTag = new VisualElement();
+        Label nameText = new Label();
+
+        characterPanel.AddToClassList("characterPanel");
+        image.AddToClassList("characterPanel-image");
+        nameTag.AddToClassList("characterPanel-nameTag");
+        nameText.AddToClassList("characterPanel-nameText");
+
+        string fileName = _characterNum.ToString("D4"); // 4자리 숫자로 포맷팅
+        Texture2D texture = Resources.Load<Texture2D>($"Images/Character/Full/{fileName}");
+        if (texture != null) image.style.backgroundImage = new StyleBackground(texture);
+
+        nameText.text = fileName;
+
+        characterPanel.Add(image);
+        characterPanel.Add(nameTag);
+        nameTag.Add(nameText);
+
+        return characterPanel;
+    }
+
 }

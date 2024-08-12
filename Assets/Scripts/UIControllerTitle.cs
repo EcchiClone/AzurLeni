@@ -61,6 +61,8 @@ public class UIControllerTitle : MonoBehaviour
             id = IDTextField.text,
             password = PasswordTextField.text,
         };
+
+        LogText.AddLog("계정 등록 시도");
         NetworkManager.instance.Post(sendForm);
     }
 
@@ -78,27 +80,30 @@ public class UIControllerTitle : MonoBehaviour
             id = IDTextField.text,
             password = PasswordTextField.text,
         };
+        LogText.AddLog("로그인 시도");
         NetworkManager.instance.Post(sendForm);
     }
     public void OnLobbyButtonClicked(ClickEvent evt)
     {
+        LogText.AddLog("로비 이동");
         SceneManager.LoadScene("Lobby");
     }
     public void OnLogoutButtonClicked(ClickEvent evt)
     {
         SendForm sendForm = new SendForm()
         {
-            uid = DataManager.CurrentUserData.uid,
+            uid = DataManager._UserData.uid,
             order = "logout",
         };
+        LogText.AddLog("로그아웃 시도");
         NetworkManager.instance.Post(sendForm);
     }
     private void UserDataLabelUpdate()
     {
         UserDataLabel.text =
-            $"{DataManager.CurrentUserData.uid}" + "\n" +
-            $"{DataManager.CurrentUserData.name}" + "\n" +
-            $"{DataManager.CurrentUserData.level}";
+            $"{DataManager._UserData.uid}" + "\n" +
+            $"{DataManager._UserData.name}" + "\n" +
+            $"{DataManager._UserData.level}";
     }
 
     private void FlexLoginSuccessElements()
