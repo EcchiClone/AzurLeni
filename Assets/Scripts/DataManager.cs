@@ -24,23 +24,18 @@ public class DataManager : MonoBehaviour
     }
     public static void LoadUserData(string _json)
     {
-        //_UserData = JsonUtility.FromJson<UserData>(_json);
-        print(_json);
+        print($"Load User Data: {_json}");
         _UserData = JsonConvert.DeserializeObject<UserData>(_json);
-        print(_UserData);
-        print(_UserData.inventory);
-        print(_UserData.inventory.item_general);
-        print(_UserData.character);
+
+        // 데이터 누락 채우기 등
         DataManager.instance.UpdateUserData();
     }
     public static void LoadGameData(string _json)
     {
-        print(_json);
+        print($"Load Game Data: {_json}");
         _GameData = JsonConvert.DeserializeObject<GameData>(_json);
-        print(_GameData);
-        print(_GameData.version);
-        print(_GameData.totalCharacterCount);
-        print(_GameData.totalCharacterCount);
+        print($"AzurLeni ver: {_GameData.version}");
+        print($"Total Character Count: {_GameData.totalCharacterCount}");
     }
     public static void ClearUserData()
     {

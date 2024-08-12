@@ -143,12 +143,9 @@ public class NetworkManager : MonoBehaviour
 
         if (responseData.result == "ERROR")
         {
-            print("ERROR : " + responseData.msg);
             LogText.AddLog(responseData.msg, LogSign.Error);
             return;
         }
-
-        print($"{responseData.order} : {responseData.msg}");
 
         switch (responseData.order)
         {
