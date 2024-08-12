@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UIElements;
 using Random = UnityEngine.Random;
@@ -62,8 +63,6 @@ public class UIControllerLobby : MonoBehaviour
         gachaUiOkBtn.RegisterCallback<ClickEvent>(OnGachaUiOkBtnClicked);
 
         SetupYoyo();
-
-        DockViewUpdate();
     }
 
     private void SetRootElement()
@@ -187,6 +186,7 @@ public class UIControllerLobby : MonoBehaviour
             }
         }
         currentTabNum = newTabNum;
+        if(currentTabNum==1) { DockViewUpdate(); }
         lobbyBackImg.style.translate = new Translate(new Length(0f+(newTabNum-4f)*2f, LengthUnit.Percent), 0f);
     }
 
@@ -202,14 +202,21 @@ public class UIControllerLobby : MonoBehaviour
     {
         for (int i = 0; i < 10; i++)
         {
-            int randomIndex = Random.Range(1, 49); // 1부터 48까지 포함
-            string fileName = randomIndex.ToString("D4"); // 4자리 숫자로 포맷팅
+            int randomIndex = Random.Range(1, DataManager._GameData.totalCharacterCount); // 1부터 totalCharacterCount-1까지 포함
 
-            Texture2D texture = Resources.Load<Texture2D>($"Images/Character/Full/{fileName}");
+            var characterBase = DataUtils.GetCharacterBaseWithID(randomIndex);
+
+            var userCharacter = DataUtils.GetUserCharacterWithID(randomIndex);
+
+            Texture2D texture = Resources.Load<Texture2D>($"Images/Character/{characterBase.imgFullPath}");
+
+            userCharacter.exp += 1; // 테스트용
+            if(userCharacter.level == 0) { userCharacter.level += 1; } // 테스트용
 
             if (texture != null) gachaPanels[i].Q<VisualElement>("Pic").style.backgroundImage = new StyleBackground(texture);
-            else Debug.LogWarning($"텍스쳐를 찾을 수 없음: {fileName}");
+            else Debug.LogWarning($"텍스쳐를 찾을 수 없음: {characterBase.imgFullPath}");
         }
+        NetworkManager.instance.UploadUserCharacterData();
     }
     private void OnGachaUiReBuildBtnClicked(ClickEvent evt)
     {
@@ -223,7 +230,10 @@ public class UIControllerLobby : MonoBehaviour
     // Tab1 도크 관련
     private void DockViewUpdate()
     {
-        foreach(UserCharacter character in DataManager._UserData.character)
+        acquiredCharacterPanel.Clear();
+        unacquiredCharacterPanel.Clear();
+
+        foreach (UserCharacter character in DataManager._UserData.character)
         {
             if(character.level > 0)
             {
@@ -233,8 +243,7 @@ public class UIControllerLobby : MonoBehaviour
             {
                 unacquiredCharacterPanel.Add(CreateCharacterPanel(character.id));
             }
-        }
-        
+        } 
     }
     private VisualElement CreateCharacterPanel(int _characterNum)
     {
@@ -248,11 +257,12 @@ public class UIControllerLobby : MonoBehaviour
         nameTag.AddToClassList("characterPanel-nameTag");
         nameText.AddToClassList("characterPanel-nameText");
 
-        string fileName = _characterNum.ToString("D4"); // 4자리 숫자로 포맷팅
-        Texture2D texture = Resources.Load<Texture2D>($"Images/Character/Full/{fileName}");
+        var character = DataUtils.GetCharacterBaseWithID(_characterNum);
+
+        Texture2D texture = Resources.Load<Texture2D>($"Images/Character/{character.imgFullPath}");
         if (texture != null) image.style.backgroundImage = new StyleBackground(texture);
 
-        nameText.text = fileName;
+        nameText.text = character.name_en.Split()[0];
 
         characterPanel.Add(image);
         characterPanel.Add(nameTag);

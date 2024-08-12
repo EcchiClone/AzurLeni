@@ -50,10 +50,11 @@ public class InventoryItem
 }
 
 [System.Serializable]
-public class B_Character
+public class CharacterBase
 {
     public int id;
     public string name;
+    public string name_en;
     public string desc;
     public string region;
     public string job;
@@ -102,7 +103,9 @@ public class GameData
 {
     public string version;
     public int totalCharacterCount;
-    
+
+    public List<CharacterBase> character;
+
     // 캐릭터 베이스 정보
     // 기타 게임 데이터
 }

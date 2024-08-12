@@ -22,7 +22,7 @@
                 <ui:VisualElement name="DockPanel" style="flex-direction: column; justify-content: space-between; align-self: flex-end; height: 90%; width: 100%; background-color: rgba(255, 255, 255, 0.47); padding-top: 50px; padding-right: 50px; padding-bottom: 50px; padding-left: 50px;">
                     <ui:ScrollView>
                         <ui:Label tabindex="-1" text="|  Acquired" parse-escape-sequences="true" display-tooltip-when-elided="true" />
-                        <ui:VisualElement name="AcquiredCharacterPanel" style="flex-direction: row;">
+                        <ui:VisualElement name="AcquiredCharacterPanel" style="flex-direction: row; flex-wrap: wrap;">
                             <ui:VisualElement name="CharacterPanel" class="characterPanel" style="display: none;">
                                 <ui:VisualElement name="CharacterPanelImage" class="characterPanel-image" />
                                 <ui:VisualElement name="CharacterPanelNameTag" class="characterPanel-nameTag">
@@ -31,7 +31,7 @@
                             </ui:VisualElement>
                         </ui:VisualElement>
                         <ui:Label tabindex="-1" text="|  Unacquired" parse-escape-sequences="true" display-tooltip-when-elided="true" />
-                        <ui:VisualElement name="UnacquiredCharacterPanel" style="flex-direction: row;" />
+                        <ui:VisualElement name="UnacquiredCharacterPanel" style="flex-direction: row; flex-wrap: wrap;" />
                     </ui:ScrollView>
                 </ui:VisualElement>
             </ui:VisualElement>

@@ -196,7 +196,7 @@ public class NetworkManager : MonoBehaviour
         LogText.AddLog(_responseData.msg);
         OnDownloadGameDataCompleted?.Invoke();
     }
-    void UploadUserCharacterData()
+    public void UploadUserCharacterData()
     {
         string characterDataJson = JsonConvert.SerializeObject(DataManager._UserData.character);
         SendForm sendForm = new SendForm()

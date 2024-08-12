@@ -31,7 +31,6 @@ public class DataManager : MonoBehaviour
         print(_UserData.inventory);
         print(_UserData.inventory.item_general);
         print(_UserData.character);
-        print(_UserData.character[0]);
         DataManager.instance.UpdateUserData();
     }
     public static void LoadGameData(string _json)
@@ -40,6 +39,7 @@ public class DataManager : MonoBehaviour
         _GameData = JsonConvert.DeserializeObject<GameData>(_json);
         print(_GameData);
         print(_GameData.version);
+        print(_GameData.totalCharacterCount);
         print(_GameData.totalCharacterCount);
     }
     public static void ClearUserData()
@@ -65,12 +65,7 @@ public class DataManager : MonoBehaviour
             }
         }
 
-        DataManager._UserData.character.Sort((a,b) => a.id.CompareTo(b.id));
-        foreach(var character in DataManager._UserData.character)
-        {
-            print(character.id);
-        }
-
+        DataManager._UserData.character.Sort((a,b) => a.id.CompareTo(b.id)); // id 순 정렬
     }
 
 }
