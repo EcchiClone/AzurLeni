@@ -33,7 +33,7 @@ public class LogText : MonoBehaviour
         {
             // 새로운 Label 생성
             Label newLogLabel = new Label();
-            newLogLabel.text = $"[System] {message}";
+            newLogLabel.text = $"[알림] {message}";
             newLogLabel.AddToClassList("log-label");
             if (_logSign == LogSign.Warning)
             {

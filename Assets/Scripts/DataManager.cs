@@ -35,6 +35,7 @@ public class DataManager : MonoBehaviour
         print($"Load Game Data: {_json}");
         _GameData = JsonConvert.DeserializeObject<GameData>(_json);
         print($"AzurLeni ver: {_GameData.version}");
+        LogText.AddLog($"AzurLeni ver: {_GameData.version}");
         print($"Total Character Count: {_GameData.totalCharacterCount}");
     }
     public static void ClearUserData()
