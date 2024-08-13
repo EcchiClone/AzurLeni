@@ -41,10 +41,10 @@ public class UIControllerTitle : MonoBehaviour
         LobbyButton.RegisterCallback<ClickEvent>(OnLobbyButtonClicked);
         LogoutButton.RegisterCallback<ClickEvent>(OnLogoutButtonClicked);
 
-        NetworkManager.instance.OnLoginCompleted += FlexLoginSuccessElements;
-        NetworkManager.instance.OnLogoutCompleted += FlexForLoginElements;
+        Managers.Instance.Network.OnLoginCompleted += FlexLoginSuccessElements;
+        Managers.Instance.Network.OnLogoutCompleted += FlexForLoginElements;
 
-        NetworkManager.instance.OnGetUserDataCompleted += UserDataLabelUpdate;
+        Managers.Instance.Network.OnGetUserDataCompleted += UserDataLabelUpdate;
     }
 
     public void OnRegisterButtonClicked(ClickEvent evt)
@@ -63,7 +63,7 @@ public class UIControllerTitle : MonoBehaviour
         };
 
         LogText.AddLog("계정 등록 시도");
-        NetworkManager.instance.Post(sendForm);
+        Managers.Instance.Network.Post(sendForm);
     }
 
     public void OnLoginButtonClicked(ClickEvent evt)
@@ -81,7 +81,7 @@ public class UIControllerTitle : MonoBehaviour
             password = PasswordTextField.text,
         };
         LogText.AddLog("로그인 시도");
-        NetworkManager.instance.Post(sendForm);
+        Managers.Instance.Network.Post(sendForm);
     }
     public void OnLobbyButtonClicked(ClickEvent evt)
     {
@@ -96,7 +96,7 @@ public class UIControllerTitle : MonoBehaviour
             order = "logout",
         };
         LogText.AddLog("로그아웃 시도");
-        NetworkManager.instance.Post(sendForm);
+        Managers.Instance.Network.Post(sendForm);
     }
     private void UserDataLabelUpdate()
     {

@@ -216,7 +216,7 @@ public class UIControllerLobby : MonoBehaviour
             if (texture != null) gachaPanels[i].Q<VisualElement>("Pic").style.backgroundImage = new StyleBackground(texture);
             else Debug.LogWarning($"텍스쳐를 찾을 수 없음: {characterBase.imgFullPath}");
         }
-        NetworkManager.instance.UploadUserCharacterData();
+        Managers.Instance.Network.UploadUserCharacterData();
     }
     private void OnGachaUiReBuildBtnClicked(ClickEvent evt)
     {

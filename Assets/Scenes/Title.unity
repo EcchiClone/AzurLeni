@@ -526,7 +526,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1071110258}
-  - component: {fileID: 1071110257}
   - component: {fileID: 1071110259}
   m_Layer: 0
   m_Name: Managers
@@ -535,18 +534,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1071110257
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1071110256}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 03e76993296229d42a90ea3195be5dac, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!4 &1071110258
 Transform:
   m_ObjectHideFlags: 0
@@ -571,9 +558,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1071110256}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 458daa7af66837a4e89073c20b97b65d, type: 3}
+  m_Script: {fileID: 11500000, guid: 0ad19bce0e52aad4e822a1f7ddff5593, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  NetworkManager: {fileID: 0}
+  ObjectPoolManager: {fileID: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

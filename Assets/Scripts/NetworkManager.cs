@@ -29,8 +29,6 @@ public class ResponseData
 
 public class NetworkManager : MonoBehaviour
 {
-    public static NetworkManager instance;
-
     public event Action OnRegisterCompleted;
     public event Action OnLoginCompleted;
     public event Action OnLogoutCompleted;
@@ -39,12 +37,12 @@ public class NetworkManager : MonoBehaviour
 
     const string SERVER_URL = "https://script.google.com/macros/s/AKfycbzmo8fkRtX1qF9WTxnI2lxjshyRnkU4O87IaCit2vz9aCxoPX2eX-JImUzBq3r_M3J2/exec";
 
-    private void Awake()
-    {
-        if(instance == null) instance = this;
-        else { Destroy(this); return; }
-        DontDestroyOnLoad(this.gameObject);
-    }
+    //private void Awake()
+    //{
+    //    if(instance == null) instance = this;
+    //    else { Destroy(this); return; }
+    //    DontDestroyOnLoad(this.gameObject);
+    //}
 
     private void Start()
     {
@@ -52,13 +50,12 @@ public class NetworkManager : MonoBehaviour
     }
     private void GetGameData()
     {
-
         LogText.AddLog("게임 데이터 요청 시도");
         SendForm sendForm = new SendForm()
         {
             order = "gameData",
         };
-        NetworkManager.instance.Get(sendForm);
+        Get(sendForm);
     }
 
     public void Post(SendForm _form)
