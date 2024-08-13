@@ -4,5 +4,8 @@ using UnityEngine;
 
 public class MobPool : PoolBase
 {
-
+    protected override void Start()
+    {
+        base.Start();
+    }
 }
