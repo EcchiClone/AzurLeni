@@ -202,7 +202,7 @@ public class UIControllerLobby : MonoBehaviour
     {
         for (int i = 0; i < 10; i++)
         {
-            int randomIndex = Random.Range(1, DataManager._GameData.totalCharacterCount); // 1부터 totalCharacterCount-1까지 포함
+            int randomIndex = Random.Range(1, Game.GameData.totalCharacterCount); // 1부터 totalCharacterCount-1까지 포함
 
             var characterBase = DataUtils.GetCharacterBaseWithID(randomIndex);
 
@@ -216,7 +216,7 @@ public class UIControllerLobby : MonoBehaviour
             if (texture != null) gachaPanels[i].Q<VisualElement>("Pic").style.backgroundImage = new StyleBackground(texture);
             else Debug.LogWarning($"텍스쳐를 찾을 수 없음: {characterBase.imgFullPath}");
         }
-        Managers.Instance.Network.UploadUserCharacterData();
+        Game.Network.UploadUserCharacterData();
     }
     private void OnGachaUiReBuildBtnClicked(ClickEvent evt)
     {
@@ -233,7 +233,7 @@ public class UIControllerLobby : MonoBehaviour
         acquiredCharacterPanel.Clear();
         unacquiredCharacterPanel.Clear();
 
-        foreach (UserCharacter character in DataManager._UserData.character)
+        foreach (UserCharacter character in Game.UserData.character)
         {
             if(character.level > 0)
             {

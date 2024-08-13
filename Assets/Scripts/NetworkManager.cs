@@ -37,13 +37,6 @@ public class NetworkManager : MonoBehaviour
 
     const string SERVER_URL = "https://script.google.com/macros/s/AKfycbzmo8fkRtX1qF9WTxnI2lxjshyRnkU4O87IaCit2vz9aCxoPX2eX-JImUzBq3r_M3J2/exec";
 
-    //private void Awake()
-    //{
-    //    if(instance == null) instance = this;
-    //    else { Destroy(this); return; }
-    //    DontDestroyOnLoad(this.gameObject);
-    //}
-
     private void Start()
     {
         GetGameData();
@@ -163,39 +156,39 @@ public class NetworkManager : MonoBehaviour
     }
     void LoginTasks(ResponseData _responseData)
     {
-        DataManager.LoadUserID(_responseData.value.ToString());
+        Game.Data.LoadUserID(_responseData.value.ToString());
         LogText.AddLog(_responseData.msg);
         OnLoginCompleted?.Invoke();
 
         LogText.AddLog("유저 데이터 요청 시도");
-        Get(new SendForm() { order = "userData", uid = DataManager._UserData.uid });
+        Get(new SendForm() { order = "userData", uid = Game.UserData.uid });
     }
     void LogoutTasks(ResponseData _responseData)
     {
         UploadUserCharacterData();
 
-        DataManager.ClearUserData();
+        Game.Data.ClearUserData();
         LogText.AddLog(_responseData.msg);
         OnLogoutCompleted?.Invoke();
     }
     void SetCurrentUserData(ResponseData _responseData)
     {
-        DataManager.LoadUserData(_responseData.value);
+        Game.Data.LoadUserData(_responseData.value);
         LogText.AddLog(_responseData.msg);
         OnGetUserDataCompleted?.Invoke();
     }
     void DownloadGameData(ResponseData _responseData)
     {
-        DataManager.LoadGameData(_responseData.value);
+        Game.Data.LoadGameData(_responseData.value);
         LogText.AddLog(_responseData.msg);
         OnDownloadGameDataCompleted?.Invoke();
     }
     public void UploadUserCharacterData()
     {
-        string characterDataJson = JsonConvert.SerializeObject(DataManager._UserData.character);
+        string characterDataJson = JsonConvert.SerializeObject(Game.UserData.character);
         SendForm sendForm = new SendForm()
         {
-            uid = DataManager._UserData.uid,
+            uid = Game.UserData.uid,
             order = "uploadUserCharacterData",
             value = characterDataJson,
         };
@@ -210,7 +203,7 @@ public class NetworkManager : MonoBehaviour
     {
         SendForm sendForm = new SendForm()
         {
-            uid = DataManager._UserData.uid,
+            uid = Game.UserData.uid,
             order = "logout",
         };
         Post(sendForm);

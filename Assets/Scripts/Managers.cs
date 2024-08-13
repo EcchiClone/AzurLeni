@@ -26,14 +26,4 @@ public class Managers : MonoBehaviour
         Instance.Network = Instance.AddComponent<NetworkManager>();
         Instance.ObjectPool = Instance.AddComponent<ObjectPoolManager>();
     }
-
-    void Start()
-    {
-        
-    }
-
-    void Update()
-    {
-        
-    }
 }

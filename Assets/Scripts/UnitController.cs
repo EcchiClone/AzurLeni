@@ -31,16 +31,4 @@ public class UnitController : MonoBehaviour
 
     // 유닛 상태 관리
     // 유닛 움직임 관리
-    // 
-
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }

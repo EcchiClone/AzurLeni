@@ -24,6 +24,7 @@ public class LogText : MonoBehaviour
         // 더 시간 쓰기에 낭비라고 생각해서 일단 해결 보류
         //logScrollView.verticalScroller.value = logScrollView.verticalScroller.highValue > 0 ? logScrollView.verticalScroller.highValue : 0;
         //StartCoroutine(ScrollToItemNextFrame(item));
+
         logScrollView.schedule.Execute(() => logScrollView.ScrollTo(item)); // 통신 등 스케쥴 있는 경우 대응
     }
 
@@ -43,7 +44,6 @@ public class LogText : MonoBehaviour
             {
                 newLogLabel.AddToClassList("log-error");
             }
-
 
             // ScrollView에 Label 추가
             logScrollView.Add(newLogLabel);

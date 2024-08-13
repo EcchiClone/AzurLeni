@@ -41,10 +41,10 @@ public class UIControllerTitle : MonoBehaviour
         LobbyButton.RegisterCallback<ClickEvent>(OnLobbyButtonClicked);
         LogoutButton.RegisterCallback<ClickEvent>(OnLogoutButtonClicked);
 
-        Managers.Instance.Network.OnLoginCompleted += FlexLoginSuccessElements;
-        Managers.Instance.Network.OnLogoutCompleted += FlexForLoginElements;
+        Game.Network.OnLoginCompleted += FlexLoginSuccessElements;
+        Game.Network.OnLogoutCompleted += FlexForLoginElements;
 
-        Managers.Instance.Network.OnGetUserDataCompleted += UserDataLabelUpdate;
+        Game.Network.OnGetUserDataCompleted += UserDataLabelUpdate;
     }
 
     public void OnRegisterButtonClicked(ClickEvent evt)
@@ -63,7 +63,7 @@ public class UIControllerTitle : MonoBehaviour
         };
 
         LogText.AddLog("계정 등록 시도");
-        Managers.Instance.Network.Post(sendForm);
+        Game.Network.Post(sendForm);
     }
 
     public void OnLoginButtonClicked(ClickEvent evt)
@@ -81,7 +81,7 @@ public class UIControllerTitle : MonoBehaviour
             password = PasswordTextField.text,
         };
         LogText.AddLog("로그인 시도");
-        Managers.Instance.Network.Post(sendForm);
+        Game.Network.Post(sendForm);
     }
     public void OnLobbyButtonClicked(ClickEvent evt)
     {
@@ -92,18 +92,18 @@ public class UIControllerTitle : MonoBehaviour
     {
         SendForm sendForm = new SendForm()
         {
-            uid = DataManager._UserData.uid,
+            uid = Game.UserData.uid,
             order = "logout",
         };
         LogText.AddLog("로그아웃 시도");
-        Managers.Instance.Network.Post(sendForm);
+        Game.Network.Post(sendForm);
     }
     private void UserDataLabelUpdate()
     {
         UserDataLabel.text =
-            $"{DataManager._UserData.uid}" + "\n" +
-            $"{DataManager._UserData.name}" + "\n" +
-            $"{DataManager._UserData.level}";
+            $"{Game.UserData.uid}" + "\n" +
+            $"{Game.UserData.name}" + "\n" +
+            $"{Game.UserData.level}";
     }
 
     private void FlexLoginSuccessElements()
