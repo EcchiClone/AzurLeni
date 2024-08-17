@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
 using Random = UnityEngine.Random;
 
@@ -25,6 +26,7 @@ public class UIControllerLobby : MonoBehaviour
     private Button buildBtn;
     private Button gachaUiMoreBtn;
     private Button gachaUiOkBtn;
+    private VisualElement AdventureButton;
 
     // 동적 요소
     private List<VisualElement>[] tabElements;
@@ -132,6 +134,8 @@ public class UIControllerLobby : MonoBehaviour
     {
         acquiredCharacterPanel = root_LobbyUI.Q<VisualElement>("AcquiredCharacterPanel");
         unacquiredCharacterPanel = root_LobbyUI.Q<VisualElement>("UnacquiredCharacterPanel");
+        AdventureButton = root_LobbyUI.Q<VisualElement>("AdventureButton");
+        AdventureButton.RegisterCallback<ClickEvent>(evt => { SceneManager.LoadScene("Adventure"); });
     }
     private void SetupYoyo()
     {

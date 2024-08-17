@@ -68,7 +68,7 @@
                             <ui:VisualElement name="Event" class="button-simple-menu" style="width: 300px; height: 120px;" />
                             <ui:VisualElement style="flex-grow: 1; flex-direction: row; justify-content: space-between; align-self: auto; align-items: flex-end;">
                                 <ui:VisualElement name="Battle" class="button-simple-menu" style="flex-grow: 0; width: 120px; height: 150px;" />
-                                <ui:VisualElement name="Battle" class="button-simple-menu" style="width: 150px; height: 150px;" />
+                                <ui:VisualElement name="AdventureButton" class="button-simple-menu" style="width: 150px; height: 150px;" />
                             </ui:VisualElement>
                         </ui:VisualElement>
                     </ui:VisualElement>
@@ -82,10 +82,10 @@
                             <ui:VisualElement style="flex-grow: 1; flex-direction: row; justify-content: flex-end; margin-right: 22px;">
                                 <ui:VisualElement style="flex-grow: 0; width: 200px; height: 40px; justify-content: space-between; background-color: rgba(33, 36, 49, 0.92); flex-direction: row; align-items: center; align-self: center;">
                                     <ui:VisualElement style="flex-grow: 0; justify-content: center; flex-shrink: 0; width: 60px; height: 60px; align-self: center; align-items: center; background-color: rgba(33, 36, 49, 0.9); border-top-left-radius: 15px; border-top-right-radius: 15px; border-bottom-right-radius: 15px; border-bottom-left-radius: 15px; border-left-color: rgba(90, 154, 255, 0.28); border-right-color: rgba(90, 154, 255, 0.28); border-top-color: rgba(90, 154, 255, 0.28); border-bottom-color: rgba(90, 154, 255, 0.28); border-top-width: 3px; border-right-width: 3px; border-bottom-width: 3px; border-left-width: 3px; rotate: -5deg; translate: -8px -5px; overflow: visible; visibility: visible;">
-                                        <ui:VisualElement style="flex-grow: 0; background-image: url(&apos;project://database/Assets/Modern%20UI%20Pack/Textures/Icon/Document/Book.png?fileID=2800000&amp;guid=f7fad078681824845adaa6aa333d9de8&amp;type=3#Book&apos;); -unity-background-scale-mode: scale-to-fit; width: 40px; height: 40px; flex-shrink: 0; -unity-background-image-tint-color: rgb(235, 246, 255); border-left-color: rgba(255, 0, 0, 0); border-right-color: rgba(255, 0, 0, 0); border-top-color: rgba(255, 0, 0, 0); border-bottom-color: rgba(255, 0, 0, 0); border-top-width: 0; border-right-width: 0; border-bottom-width: 0; border-left-width: 0; justify-content: center;" />
+                                        <ui:VisualElement style="flex-grow: 0; background-image: url(&apos;project://database/Assets/PaidAssets/Modern%20UI%20Pack/Textures/Icon/Document/Book.png?fileID=2800000&amp;guid=f7fad078681824845adaa6aa333d9de8&amp;type=3#Book&apos;); -unity-background-scale-mode: scale-to-fit; width: 40px; height: 40px; flex-shrink: 0; -unity-background-image-tint-color: rgb(235, 246, 255); border-left-color: rgba(255, 0, 0, 0); border-right-color: rgba(255, 0, 0, 0); border-top-color: rgba(255, 0, 0, 0); border-bottom-color: rgba(255, 0, 0, 0); border-top-width: 0; border-right-width: 0; border-bottom-width: 0; border-left-width: 0; justify-content: center;" />
                                     </ui:VisualElement>
                                     <ui:Label tabindex="-1" text="999" parse-escape-sequences="true" display-tooltip-when-elided="true" style="align-self: center; justify-content: center; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; color: rgb(255, 255, 255); font-size: 36px; -unity-text-align: upper-right; -unity-font-style: normal;" />
-                                    <ui:Button parse-escape-sequences="true" display-tooltip-when-elided="true" style="background-image: url(&apos;project://database/Assets/Modern%20UI%20Pack/Textures/Icon/Navigation/Add.png?fileID=21300002&amp;guid=66995b6b61aed864daa956ae255d7fee&amp;type=3#Add&apos;); background-color: rgba(0, 0, 0, 0); -unity-background-image-tint-color: rgb(90, 154, 255); -unity-background-scale-mode: scale-to-fit; margin-top: 0; margin-right: 4px; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; width: 32px; height: 32px; align-self: center; justify-content: center;" />
+                                    <ui:Button parse-escape-sequences="true" display-tooltip-when-elided="true" style="background-image: url(&apos;project://database/Assets/PaidAssets/Modern%20UI%20Pack/Textures/Icon/Navigation/Add.png?fileID=21300002&amp;guid=66995b6b61aed864daa956ae255d7fee&amp;type=3#Add&apos;); background-color: rgba(0, 0, 0, 0); -unity-background-image-tint-color: rgb(90, 154, 255); -unity-background-scale-mode: scale-to-fit; margin-top: 0; margin-right: 4px; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; width: 32px; height: 32px; align-self: center; justify-content: center;" />
                                 </ui:VisualElement>
                             </ui:VisualElement>
                         </ui:VisualElement>
@@ -158,28 +158,28 @@
                             <ui:VisualElement class="icon-lobby-bottom-menu" />
                         </ui:Button>
                         <ui:Button text="Leniz" name="Btn_Leniz" class="button-lobby-bottom-menu">
-                            <ui:VisualElement name="VisualElement" class="icon-lobby-bottom-menu" style="background-image: url(&apos;project://database/Assets/Modern%20UI%20Pack/Textures/Icon/Communication%20&amp;%20Social/Github.png?fileID=21300000&amp;guid=382fa5a2011bcd141a17f4f5a20ca5cc&amp;type=3#Github&apos;);" />
+                            <ui:VisualElement name="VisualElement" class="icon-lobby-bottom-menu" style="background-image: url(&apos;project://database/Assets/PaidAssets/Modern%20UI%20Pack/Textures/Icon/Communication%20&amp;%20Social/Github.png?fileID=21300000&amp;guid=382fa5a2011bcd141a17f4f5a20ca5cc&amp;type=3#Github&apos;);" />
                         </ui:Button>
                         <ui:Button text="Item" name="Btn_Item" class="button-lobby-bottom-menu">
-                            <ui:VisualElement name="VisualElement" class="icon-lobby-bottom-menu" style="background-image: url(&apos;project://database/Assets/Modern%20UI%20Pack/Textures/Icon/UI%20Elements/Movable%20Window.png?fileID=21300000&amp;guid=19d7c542909d24440b53be37889f8f3c&amp;type=3#Movable Window&apos;);" />
+                            <ui:VisualElement name="VisualElement" class="icon-lobby-bottom-menu" style="background-image: url(&apos;project://database/Assets/PaidAssets/Modern%20UI%20Pack/Textures/Icon/UI%20Elements/Movable%20Window.png?fileID=21300000&amp;guid=19d7c542909d24440b53be37889f8f3c&amp;type=3#Movable Window&apos;);" />
                         </ui:Button>
                         <ui:Button text="Lab" name="Btn_Lab" class="button-lobby-bottom-menu">
-                            <ui:VisualElement name="VisualElement" class="icon-lobby-bottom-menu" style="background-image: url(&apos;project://database/Assets/Modern%20UI%20Pack/Textures/Icon/Document/Docs.png?fileID=21300000&amp;guid=b1f294bdc7c0c4a4c8ccf957d26052e5&amp;type=3#Docs&apos;); left: -8px;" />
+                            <ui:VisualElement name="VisualElement" class="icon-lobby-bottom-menu" style="background-image: url(&apos;project://database/Assets/PaidAssets/Modern%20UI%20Pack/Textures/Icon/Document/Docs.png?fileID=21300000&amp;guid=b1f294bdc7c0c4a4c8ccf957d26052e5&amp;type=3#Docs&apos;); left: -8px;" />
                         </ui:Button>
                         <ui:Button text="Lobby" name="Btn_Lobby" class="button-lobby-bottom-menu">
-                            <ui:VisualElement name="VisualElement" class="icon-lobby-bottom-menu" style="background-image: url(&apos;project://database/Assets/Modern%20UI%20Pack/Textures/Icon/Weather/Sun.png?fileID=21300000&amp;guid=294d6b96a6d33014585015577577d771&amp;type=3#Sun&apos;); left: -20px;" />
+                            <ui:VisualElement name="VisualElement" class="icon-lobby-bottom-menu" style="background-image: url(&apos;project://database/Assets/PaidAssets/Modern%20UI%20Pack/Textures/Icon/Weather/Sun.png?fileID=21300000&amp;guid=294d6b96a6d33014585015577577d771&amp;type=3#Sun&apos;); left: -20px;" />
                         </ui:Button>
                         <ui:Button text="Gacha" name="Btn_Gacha" class="button-lobby-bottom-menu">
-                            <ui:VisualElement name="VisualElement" class="icon-lobby-bottom-menu" style="background-image: url(&apos;project://database/Assets/Modern%20UI%20Pack/Textures/Icon/Media/Music.png?fileID=21300000&amp;guid=3881a589da314734096a8ebe09c4e236&amp;type=3#Music&apos;); left: -19px;" />
+                            <ui:VisualElement name="VisualElement" class="icon-lobby-bottom-menu" style="background-image: url(&apos;project://database/Assets/PaidAssets/Modern%20UI%20Pack/Textures/Icon/Media/Music.png?fileID=21300000&amp;guid=3881a589da314734096a8ebe09c4e236&amp;type=3#Music&apos;); left: -19px;" />
                         </ui:Button>
                         <ui:Button text="House" name="Btn_House" class="button-lobby-bottom-menu">
-                            <ui:VisualElement name="VisualElement" class="icon-lobby-bottom-menu" style="background-image: url(&apos;project://database/Assets/Modern%20UI%20Pack/Textures/Icon/Navigation/Home.png?fileID=21300000&amp;guid=b7414fdd0411d364ab74c963a05b62d3&amp;type=3#Home&apos;); left: -20px;" />
+                            <ui:VisualElement name="VisualElement" class="icon-lobby-bottom-menu" style="background-image: url(&apos;project://database/Assets/PaidAssets/Modern%20UI%20Pack/Textures/Icon/Navigation/Home.png?fileID=21300000&amp;guid=b7414fdd0411d364ab74c963a05b62d3&amp;type=3#Home&apos;); left: -20px;" />
                         </ui:Button>
                         <ui:Button text="Guild" name="Btn_Guild" class="button-lobby-bottom-menu">
-                            <ui:VisualElement name="VisualElement" class="icon-lobby-bottom-menu" style="background-image: url(&apos;project://database/Assets/Modern%20UI%20Pack/Textures/Icon/UI%20Elements/Slider.png?fileID=21300000&amp;guid=80a855646d4a1e644aff61960bb8957e&amp;type=3#Slider&apos;);" />
+                            <ui:VisualElement name="VisualElement" class="icon-lobby-bottom-menu" style="background-image: url(&apos;project://database/Assets/PaidAssets/Modern%20UI%20Pack/Textures/Icon/UI%20Elements/Slider.png?fileID=21300000&amp;guid=80a855646d4a1e644aff61960bb8957e&amp;type=3#Slider&apos;);" />
                         </ui:Button>
                         <ui:Button text="Square" name="Btn_Square" class="button-lobby-bottom-menu" style="padding-left: 45px;">
-                            <ui:VisualElement name="VisualElement" class="icon-lobby-bottom-menu" style="background-image: url(&apos;project://database/Assets/Modern%20UI%20Pack/Textures/Icon/Map/World.png?fileID=21300000&amp;guid=aee454fcb90274c42b8096a03bf7a1ef&amp;type=3#World&apos;); left: -30px;" />
+                            <ui:VisualElement name="VisualElement" class="icon-lobby-bottom-menu" style="background-image: url(&apos;project://database/Assets/PaidAssets/Modern%20UI%20Pack/Textures/Icon/Map/World.png?fileID=21300000&amp;guid=aee454fcb90274c42b8096a03bf7a1ef&amp;type=3#World&apos;); left: -30px;" />
                         </ui:Button>
                     </ui:VisualElement>
                 </ui:VisualElement>
