@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public enum UnitSide
 {
@@ -12,6 +13,7 @@ public enum UnitSide
 public enum UnitState
 {
     Idle,
+    Search,
     Patrol,
     Move,
     Attack,
@@ -24,11 +26,42 @@ public enum UnitState
 
 public class UnitController : MonoBehaviour
 {
-    // 유닛 관련 오브젝트 연결
-    [SerializeField] private GameObject DisplayHp;
-    [SerializeField] private GameObject DisplayName;
-    // 유닛 정보 가져오기
+    // UI 오브젝트 연결
+    protected UIDocument uiDocument;
+
+    // 유닛 정보
+
 
     // 유닛 상태 관리
+    [SerializeField] protected UnitSide side;
+    [SerializeField] protected UnitState state;
     // 유닛 움직임 관리
+
+    public void ReturnToPool()
+    {
+        if (Game.Field.EntityPosition.ContainsKey(side))
+        {
+            if (Game.Field.EntityPosition[side].Contains(transform))
+            {
+                Game.Field.EntityPosition[side].Remove(transform);
+            }
+        }
+        if (Game.Field.EntityPosition[side].Contains(transform))
+        {
+            Game.Field.EntityPosition[side].Remove(transform);
+        }
+        Game.Pool["Unit"].Release(gameObject);
+    }
+
+    void OnDestroy()
+    {
+        if(Game.Field.EntityPosition.ContainsKey(side))
+        {
+            if (Game.Field.EntityPosition[side].Contains(transform))
+            {
+                Game.Field.EntityPosition[side].Remove(transform);
+            }
+        }
+    }
+
 }

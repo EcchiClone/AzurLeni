@@ -8,4 +8,5 @@ public static class Game
     public static Dictionary<string, PoolBase> Pool => Managers.Instance.ObjectPool.ObjectPools;
     public static UserData UserData => Data.UserData;
     public static GameData GameData => Data.GameData;
+    public static FieldManager Field => Managers.Instance.Field;
 }

@@ -11,8 +11,8 @@ public class AdvantureCharactersManager : MonoBehaviour
     {
         for(int i = 0; i < characterNum.Length; i++)
         {
-            characters[i].baseData = Game.GameData.character[characterNum[i]];
-            characters[i].userData = Game.UserData.character[characterNum[i]];
+            characters[i].baseData = DataUtils.GetCharacterBaseWithID(characterNum[i]);
+            characters[i].userData = DataUtils.GetUserCharacterWithID(characterNum[i]);
 
             characters[i].InitializeCharacter();
         }
